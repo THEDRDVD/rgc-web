@@ -1,0 +1,339 @@
+body {
+	background-color: #1B1B1B;
+	line-height: 1.5;
+	word-wrap: break-word;
+	margin: 0;
+}
+#cabecera {
+	border-bottom: 10px solid #F37A01;
+	margin-bottom: 25px;
+}
+#logo_rgc {
+	text-align: center;
+}
+#logo_rgc img {
+	max-width: 250px;
+}
+#barra_navegacion {
+	text-align: center;
+	list-style: none;
+	font-family: Trebuchet MS,Tahoma;
+	font-weight: bold;
+	font-size: 16px;
+	color: #DBDBDB;
+	background: linear-gradient(#6C6C6C, #383838);
+}
+#barra_navegacion ul {
+	float: none;
+    display: inline-block;
+	list-style: none;
+}
+.elemento_navegacion a {
+	position: relative;
+    display: inline-block;
+    padding: 10px;
+	margin: 0px 20px;
+	text-decoration: none;
+	transition-duration: 0.3s;
+	color: #DBDBDB;
+}
+.elemento_navegacion a:hover {
+	transition-duration: 0.3s;
+	color: #FFFF8B;
+}
+#cuerpo_pagina {
+	margin-bottom: 30px;
+}
+#zona_principal {
+	font-size: 16px;
+	color: #DBDBDB;
+	padding: 5px 20px;
+	font-family: Trebuchet MS,Tahoma;
+	margin-bottom: 15px;
+	float: left;
+	width: 61%;
+}
+.caja_lectura_publicacion {
+	border: 2px solid white;
+	border-radius: 15px;
+	padding: 20px;
+	background-color: #3B3B3B;
+	background-repeat: no-repeat;
+	background-position: 100% 100%;
+}
+.caja_lectura_publicacion img {
+	display: block;
+	height: auto;
+	max-width: 100%;
+}
+.caja_lectura_publicacion a {
+	color: #FF7A26;
+}
+.titulo_publicacion, .titulo_publicacion a  {
+	margin: 0px;
+	font-weight: bold;
+}
+.titulo_publicacion a  {
+	text-decoration: none;
+    color: #FF7A26;
+}
+.titulo_publicacion a:hover {
+	color: #FFA871;
+}
+.datos_publicacion {
+	font-size: 16px;
+	margin: 0px;
+	color: #C6C6C6;
+}
+.datos_publicacion a {
+	text-decoration: none;
+	color: #FF7A26;
+}
+.datos_publicacion a:hover {
+	color: #FFA871;
+}
+.resumen_publicacion {
+	margin: 10px 0px 0px;
+	font-size: 20px;
+}
+#zona_lateral {
+	font-family: Trebuchet MS,Tahoma;
+	background-color: #3B3B3B;
+	color: #DBDBDB;
+	padding: 15px;
+	border-radius: 10px 0px 0px 10px;
+	float: right;
+	width: 30%;
+}
+#boton_steam {
+}
+#boton_acotar {
+	width: 100%;
+	margin-bottom: 20px;
+}
+#busqueda_avanzada {
+	padding: 15px;
+	border: 2px solid #838383;
+	border-radius: 5px;
+}
+.elemento_busqueda {
+	margin-bottom: 10px;
+	min-width: 60%;
+}
+.caja_servidor {
+	background: #FCFCFC;
+	color: #333;
+	text-align: center;
+}
+.titulo_caja_servidor {
+	margin: 5px;
+	font-weight: bold;
+	border: transparent;
+	background: transparent;
+}
+.img_mapa_server {
+	display: block;
+	height: auto;
+	max-width: 100%;
+}
+.dato_server {
+	padding: 10px 20px;
+}
+.boton_jugar {
+	width: 100%;
+}
+.boton_comunidad_amiga {
+	border-radius: 20px;
+	padding: 5px;
+	margin: 10px;
+	background-color: grey;
+	border-color: #808080;
+	width: 100px;
+}
+#pie_pagina {
+	padding-top: 20px;
+	clear: both;
+}
+#pie_trozito {
+	font-family: Trebuchet MS,Tahoma;
+	min-height: 50px;
+	padding: 15px;
+	background: #111;
+	border-top: 1px solid #5C5C5C;
+	color: #DADADA;
+}
+.titulos_escribir_publicacion {
+	background-color: #616161;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+}
+#vista_previa_publicacion {
+	margin: 0px;
+    padding: 15px;
+    color: #313131;
+}
+#vista_previa_publicacion a {
+	color: #FF7A26;
+}
+#vista_previa_publicacion hr {
+	border-color: black;
+}
+#vista_previa_publicacion img {
+	display: block;
+    height: auto;
+    max-width: 100%;
+}
+#caja_perfil_usuario {
+	border: 2px solid white;
+	border-radius: 15px;
+	padding: 20px;
+	background-color: #3B3B3B;
+	background-image: url('img/bg_lambda3.png');
+	background-repeat: no-repeat;
+	background-position: 100% 100%;
+}
+#nombre_perfil_usuario a {
+	font-weight: bold;
+	transition-duration: 0.15s;
+	color: #DBDBDB;
+	text-decoration: none;
+}
+#nombre_perfil_usuario a:hover {
+	text-shadow: 0px 0px 5px #B6B6B6;
+	transition-duration: 0.15s;
+	color: #F3F3F3;
+}
+#lista_publicaciones_usuario {
+	list-style-type: none;
+	padding: 5px;
+}
+.elemento_lista_publicaciones_usuario a {
+	text-decoration: none;
+	color: #FF7A26;
+}
+.elemento_lista_publicaciones_usuario a:hover {
+	text-decoration: none;
+	color: #FFA871;
+}
+.comentario {
+	padding: 5px;
+	margin: 15px 0px;
+	background-color: #3B3B3B;
+	border: 1px solid #565656;
+}
+.comentario a {
+	text-decoration: none;
+	color: #FF7A26;
+}
+.boton_editar, .boton_eliminar {
+	color: #FF7A26;
+	background: none;
+    border: none;
+    padding: 0px 5px;
+}
+.boton_editar:hover, .boton_eliminar:hover {
+	color: #FFC946;
+	cursor: pointer;
+}
+.modal_elim_coment {
+	color: black;
+	border-radius: 2px;
+}
+.notificacion_correcto {
+	background: lightgreen;
+	border-radius: 2px;
+	color: green;
+	padding: 15px;
+	margin: 5px 0px;
+}
+.notificacion_error {
+	background: #FFC9C9;
+	border-radius: 2px;
+	color: #F00000;
+	padding: 15px;
+	margin: 5px 0px;
+}
+.notificacion_advertencia {
+	background: #FFFCDA;
+	border-radius: 2px;
+	color: #BA9103;
+	padding: 15px;
+	margin: 5px 0px;
+}
+.notificacion_info {
+	background: #E7FFFB;
+	border-radius: 2px;
+	color: #035D68;
+	padding: 15px;
+	margin: 5px 0px;
+}
+.titulo_seccion_zona_lateral {
+	margin: 15px 0px 5px;
+}
+.boton_normal {
+	text-decoration: none;
+	background: #EDEDED;
+	padding: 5px;
+	border: none;
+	border-radius: 4px;
+	color: #000000;
+	font-size: 14px;
+}
+.boton_normal:hover {
+	background: #FFFFFF;
+	color: #414141;
+	cursor: pointer;
+}
+.casilla_con_texto {
+	display: inline-block;
+}
+.dato_comentario_avatar, .dato_comentario_avatar img, .dato_comentario_nombre_y_fecha {
+	vertical-align: middle;
+	display: table-cell;
+}
+.dato_comentario_nombre_y_fecha {
+	font-size: 13px;
+	padding-left: 10px;
+}
+.caja_texto {
+	display: block;
+	width: 100%;
+	padding: 5px;
+	border: 1px solid #D4D4D4;
+	border-radius: 2px;
+}
+.espacio_vista_previa {
+	padding: 15px;
+	background-color: #EFEFEF;
+}
+.caja_campo_formulario_escribir {
+	padding: 5px;
+	height: auto;
+	width: 100%;
+	margin-bottom: 10px;
+}
+.campo_fecha_formulario_escribir {
+	width: 100%;
+	margin-bottom: 10px;
+}
+#imagen_perfil_usuario {
+	margin-right: 15px;
+	margin-bottom: 10px;
+}
+.elemento_perfil_usuario {
+	margin: 0px;
+}
+#input_fecha_dia, #input_fecha_mes, #input_fecha_ano, #input_hora, #input_minuto, #input_segundo {
+	max-width: 60px;
+}
+.form_editar, .form_eliminar {
+	display: inline;
+}
+.bloque_caja_perfil_usuario {
+	display: table-cell;
+	vertical-align: top;
+}
+.boton_editar_usuario {
+	width: 184px;
+}
