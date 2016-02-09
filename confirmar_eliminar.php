@@ -30,7 +30,7 @@ $es_pagina_publicaciones = false;
 	} catch (Exception $e) {
 		echo '<head><title>Rebel Gamers Clan - Eliminar publicación/comentario</title>';
 		mostrarPrimeraPartePagina();
-		echo '<div class="notificacion_error"><b>Ha fallado la conexión con la base de datos.</b> Vuelve más tarde, a ver si se ha podido solucionar el problema.</div></div>';
+		echo '<div class="notificacion_error"><b>Ha fallado la conexión con la base de datos.</b> Vuelve más tarde, a ver si se ha podido solucionar el problema.</div>';
 		$error_bd = true;
 	}
 	
@@ -46,7 +46,7 @@ $es_pagina_publicaciones = false;
 				$sent_prep = $con_bd->prepare("SELECT publicaciones.id AS id_publicacion, publicaciones.titulo, usuarios.id AS id_autor, usuarios.id_steam, usuarios.permisos FROM publicaciones JOIN usuarios ON usuarios.id = publicaciones.autor WHERE publicaciones.id = (?)");
 				if (!$sent_prep) {
 					echo '<div class="notificacion_error"><b>Ha ocurrido un problema buscando los datos de la publicación.</b>' .
-					' Vuelve más tarde, a ver si se ha podido solucionar el problema.</div></div>';
+					' Vuelve más tarde, a ver si se ha podido solucionar el problema.</div>';
 				} else {
 					$sent_prep->bind_param("i", $id_publicacion);
 					$sent_prep->execute();
@@ -61,18 +61,18 @@ $es_pagina_publicaciones = false;
 								echo '<form action="acciones_post.php" method="post">';
 								echo '<button class="boton_normal" type="submit" name="eliminar_publicacion" ' .
 								'title="Haz desaparecer esta publicación de la faz de la... página web. >:)"><b>Sí, bórrala</b></button> ';
-								echo '<button class="boton_normal" type="submit" name="cancelar title="¡No, ha habido una confusión! D\':"><b>No, cancelar la acción</b></button>';
-								echo '<input type="hidden" name="id_publicacion" value="' . $id_publicacion . '" /></form></div>';
+								echo '<button class="boton_normal" type="submit" name="cancelar" title="¡No, ha habido una confusión! D\':"><b>No, cancelar la acción</b></button>';
+								echo '<input type="hidden" name="id_publicacion" value="' . $id_publicacion . '" /></form>';
 							} else {
-								echo '<div class="notificacion_error"><b>No eres el autor de la publicación o no tienes permisos suficientes para realizar esta acción.</b></div></div>';
+								echo '<div class="notificacion_error"><b>No eres el autor de la publicación o no tienes permisos suficientes para realizar esta acción.</b></div>';
 							}
 						}
 					} else {
-						echo '<div class="notificacion_error"><b>No se ha encontrado ninguna publicación con la ID enviada.</b></div></div>';
+						echo '<div class="notificacion_error"><b>No se ha encontrado ninguna publicación con la ID enviada.</b></div>';
 					}
 				}
 			} else {
-				echo '<div class="notificacion_advertencia">Tienes que estar conectado a Steam a través de la página para poder eliminar un comentario.</div></div>';
+				echo '<div class="notificacion_advertencia">Tienes que estar conectado a Steam a través de la página para poder eliminar un comentario.</div>';
 			}
 		} else if (isset($_POST['comentario'])) {
 			echo '<head><title>Rebel Gamers Clan - Eliminar comentario</title>';
@@ -83,7 +83,7 @@ $es_pagina_publicaciones = false;
 				$id_comentario = $_POST['id_comentario'];
 				$sent_prep = $con_bd->prepare("SELECT comentarios.id AS id_comentario, usuarios.id AS id_autor, usuarios.id_steam, usuarios.permisos FROM comentarios JOIN usuarios ON usuarios.id = comentarios.autor_comentario WHERE comentarios.id = (?)");
 				if (!$sent_prep) {
-					echo '<div class="notificacion_error"><b>Ha ocurrido un problema buscando los datos del comentario.</b> Vuelve más tarde, a ver si se ha podido solucionar el problema.</div></div>';
+					echo '<div class="notificacion_error"><b>Ha ocurrido un problema buscando los datos del comentario.</b> Vuelve más tarde, a ver si se ha podido solucionar el problema.</div>';
 				} else {
 					$sent_prep->bind_param("i", $id_comentario);
 					$sent_prep->execute();
@@ -100,31 +100,30 @@ $es_pagina_publicaciones = false;
 								'title="Haz desaparecer este comentario de la faz de la... página web. >:)"><b>Sí, bórralo</b></button> ';
 								echo '<button class="boton_normal" type="submit" name="cancelar" title="¡No, ha habido una confusión! D\':"><b>No, cancelar la acción</b></button>';
 								echo '<input type="hidden" name="id_publicacion" value="' . $id_publicacion . '" />';
-								echo '<input type="hidden" name="id_comentario" value="' . $id_comentario . '" /></form></div>';
+								echo '<input type="hidden" name="id_comentario" value="' . $id_comentario . '" /></form>';
 							} else {
-								echo '<div class="notificacion_error"><b>No eres el autor del comentario o no tienes permisos suficientes para realizar esta acción.</b></div></div>';
+								echo '<div class="notificacion_error"><b>No eres el autor del comentario o no tienes permisos suficientes para realizar esta acción.</b></div>';
 							}
 						}
 					} else {
-						echo '<div class="notificacion_error"><b>No se ha encontrado ningún comentario con la ID enviada.</b></div></div>';
+						echo '<div class="notificacion_error"><b>No se ha encontrado ningún comentario con la ID enviada.</b></div>';
 					}
 				}
 			} else {
-				echo '<div class="notificacion_advertencia">Tienes que estar conectado a Steam a través de la página para poder eliminar un comentario.</div></div>';
+				echo '<div class="notificacion_advertencia">Tienes que estar conectado a Steam a través de la página para poder eliminar un comentario.</div>';
 			}
 		// Si no está indicado por parámetro POST 'publicacion' o 'comentario', no se mostrará nada.
 		} else {
 			echo '<head><title>Rebel Gamers Clan - Eliminar publicación/comentario</title>';
 			mostrarPrimeraPartePagina();
-			echo '<div class="notificacion_advertencia"><b>No se han reconocido los parámetros enviados.</b> Quizás hayas llegado a esta página por error.</div></div>';
+			echo '<div class="notificacion_advertencia"><b>No se han reconocido los parámetros enviados.</b> Quizás hayas llegado a esta página por error.</div>';
 		}
 		// Cerramos la conexión con la BD, ya no la necesitamos.
 		mysqli_close($con_bd);
 	}
-?>
-			<div id="zona_lateral">
-				<?php include('zona_lateral.php'); ?>
-			</div>
+	?>
+			</section>
+			<?php include('zona_lateral.php'); ?>
 		</div>
 		<?php include('pie_pagina.php'); ?>
 	</body>

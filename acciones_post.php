@@ -76,20 +76,42 @@ if (isset($_POST['enviar_comentario']) && ($conectado_steam)) {
 			$_SESSION['cod_comentario'] = 4;
 		} else {
 			prepararConexionUTF8($con_bd);
-			// Enviar comentario a la BD.
-			$sent_prep = $con_bd->prepare("UPDATE comentarios SET contenido=(?) WHERE id=(?)");
-			if (!$sent_prep) {
+			// Antes tenemos que comprobar la autoridad del usuario para modificar el comentario, usando su ID de Steam.
+			include('steamauth/userInfo.php');
+			$id_steam = $steamprofile['steamid'];
+			$sent_prep = $con_bd->prepare("SELECT * FROM comentarios JOIN usuarios ON usuarios.id = comentarios.autor_comentario WHERE comentarios.id = (?) AND usuarios.id_steam = (?)");
+			$sent_prep_2 = $con_bd->prepare("SELECT * FROM usuarios WHERE id_steam = (?) AND permisos = (2)");
+			if (!$sent_prep || !$sent_prep_2) {
 				$_SESSION['cod_comentario'] = 5;
 			} else {
-				$sent_prep->bind_param("si", $texto_comentario_editado, $id_comentario);
-				if (!$sent_prep->execute()) {
+				$sent_prep->bind_param("is", $id_comentario, $id_steam);
+				$sent_prep_2->bind_param("s", $id_steam);
+				if (!$sent_prep->execute() || !$sent_prep_2->execute()) {
 					$_SESSION['cod_comentario'] = 5;
-				} else if (mysqli_affected_rows($con_bd) == 1) {
-					$_SESSION['cod_comentario'] = 2;
-					$_SESSION['id_publicacion'] = $id_publicacion;
-					$_SESSION['id_comentario'] = $id_comentario;
 				} else {
-					$_SESSION['cod_comentario'] = 5;
+					$result_comentario = $sent_prep->get_result();
+					$result_usuario = $sent_prep_2->get_result();
+					// Comprobamos si el es el autor del comentario o si tiene permisos de administrador.
+					if (mysqli_num_rows($result_comentario) == 1 || mysqli_num_rows($result_usuario) == 1) {
+						// Enviar comentario a la BD.
+						$sent_prep = $con_bd->prepare("UPDATE comentarios SET contenido=(?) WHERE id=(?)");
+						if (!$sent_prep) {
+							$_SESSION['cod_comentario'] = 5;
+						} else {
+							$sent_prep->bind_param("si", $texto_comentario_editado, $id_comentario);
+							if (!$sent_prep->execute()) {
+								$_SESSION['cod_comentario'] = 5;
+							} else if (mysqli_affected_rows($con_bd) == 1) {
+								$_SESSION['cod_comentario'] = 2;
+								$_SESSION['id_publicacion'] = $id_publicacion;
+								$_SESSION['id_comentario'] = $id_comentario;
+							} else {
+								$_SESSION['cod_comentario'] = 5;
+							}
+						}
+					} else {
+						$_SESSION['cod_comentario'] = 8;
+					}
 				}
 			}
 			// Se cierra la conexión a la BD.
@@ -108,21 +130,43 @@ if (isset($_POST['enviar_comentario']) && ($conectado_steam)) {
 		$_SESSION['cod_comentario'] = 4;
 	} else {
 		prepararConexionUTF8($con_bd);
-		$sent_prep = $con_bd->prepare("DELETE FROM comentarios WHERE id = (?)");
-		if (!$sent_prep) {
-			$_SESSION['cod_comentario'] = 7;
+		// Antes tenemos que comprobar la autoridad del usuario para borrar el comentario, usando su ID de Steam.
+		include('steamauth/userInfo.php');
+		$id_steam = $steamprofile['steamid'];
+		$sent_prep = $con_bd->prepare("SELECT * FROM comentarios JOIN usuarios ON usuarios.id = comentarios.autor_comentario WHERE comentarios.id = (?) AND usuarios.id_steam = (?)");
+		$sent_prep_2 = $con_bd->prepare("SELECT * FROM usuarios WHERE id_steam = (?) AND permisos = (2)");
+		if (!$sent_prep || !$sent_prep_2) {
+			$_SESSION['cod_comentario'] = 5;
 		} else {
-			$sent_prep->bind_param("i", $id_comentario);
-			if (!$sent_prep->execute()) {
-				$_SESSION['cod_comentario'] = 7;
-			} else if (mysqli_affected_rows($con_bd) == 1) {
-				$_SESSION['cod_comentario'] = 6;
+			$sent_prep->bind_param("is", $id_comentario, $id_steam);
+			$sent_prep_2->bind_param("s", $id_steam);
+			if (!$sent_prep->execute() || !$sent_prep_2->execute()) {
+				$_SESSION['cod_comentario'] = 5;
 			} else {
-				$_SESSION['cod_comentario'] = 7;
+				$result_comentario = $sent_prep->get_result();
+				$result_usuario = $sent_prep_2->get_result();
+				// Comprobamos si el es el autor del comentario o si tiene permisos de administrador.
+				if (mysqli_num_rows($result_comentario) == 1 || mysqli_num_rows($result_usuario) == 1) {
+					$sent_prep = $con_bd->prepare("DELETE FROM comentarios WHERE id = (?)");
+					if (!$sent_prep) {
+						$_SESSION['cod_comentario'] = 7;
+					} else {
+						$sent_prep->bind_param("i", $id_comentario);
+						if (!$sent_prep->execute()) {
+							$_SESSION['cod_comentario'] = 7;
+						} else if (mysqli_affected_rows($con_bd) == 1) {
+							$_SESSION['cod_comentario'] = 6;
+						} else {
+							$_SESSION['cod_comentario'] = 7;
+						}
+					}
+				} else {
+					$_SESSION['cod_comentario'] = 8;
+				}
 			}
-			// Se cierra la conexión a la BD.
-			mysqli_close($con_bd);
 		}
+		// Se cierra la conexión a la BD.
+		mysqli_close($con_bd);
 	}
 	header('HTTP/1.1 303 See Other');
 	header('Location: leer.php?id=' . $id_publicacion . '#comentarios');
@@ -132,32 +176,54 @@ if (isset($_POST['enviar_comentario']) && ($conectado_steam)) {
 	// Se crea la conexión a la BD para leer las publicaciones y los comentarios.
 	@$con_bd = new mysqli($datosbd['conexion'], $datosbd['usuario3'], $datosbd['contra3'], $datosbd['nombre_bd']);
 	if ($con_bd->connect_error) {
-		$_SESSION['cod_publicacion'] = 4;
+		$_SESSION['cod_publicacion'] = 3;
 	} else {
 		prepararConexionUTF8($con_bd);
-		$sent_prep = $con_bd->prepare("DELETE FROM publicaciones WHERE id = (?)");
-		if (!$sent_prep) {
-			$_SESSION['cod_publicacion'] = 3;
+		// Antes tenemos que comprobar la autoridad del usuario para eliminar la publicación, usando su ID de Steam.
+		include('steamauth/userInfo.php');
+		$id_steam = $steamprofile['steamid'];
+		$sent_prep = $con_bd->prepare("SELECT * FROM publicaciones JOIN usuarios ON usuarios.id = publicaciones.autor WHERE publicaciones.id = (?) AND usuarios.id_steam = (?)");
+		$sent_prep_2 = $con_bd->prepare("SELECT * FROM usuarios WHERE id_steam = (?) AND permisos = (2)");
+		if (!$sent_prep || !$sent_prep_2) {
+			$_SESSION['cod_publicacion'] = 4;
 		} else {
-			$sent_prep->bind_param("i", $id_publicacion);
-			if (!$sent_prep->execute()) {
-				$_SESSION['cod_publicacion'] = 3;
-			} else if (mysqli_affected_rows($con_bd) == 1) {
-				$_SESSION['cod_publicacion'] = 5;
+			$sent_prep->bind_param("is", $id_publicacion, $id_steam);
+			$sent_prep_2->bind_param("s", $id_steam);
+			if (!$sent_prep->execute() || !$sent_prep_2->execute()) {
+				$_SESSION['cod_publicacion'] = 4;
 			} else {
-				$_SESSION['cod_publicacion'] = 3;
+				$result_comentario = $sent_prep->get_result();
+				$result_usuario = $sent_prep_2->get_result();
+				// Comprobamos si el es el autor de la publicación o si tiene permisos de administrador.
+				if (mysqli_num_rows($result_comentario) == 1 || mysqli_num_rows($result_usuario) == 1) {
+					$sent_prep = $con_bd->prepare("DELETE FROM publicaciones WHERE id = (?)");
+					if (!$sent_prep) {
+						$_SESSION['cod_publicacion'] = 4;
+					} else {
+						$sent_prep->bind_param("i", $id_publicacion);
+						if (!$sent_prep->execute()) {
+							$_SESSION['cod_publicacion'] = 4;
+						} else if (mysqli_affected_rows($con_bd) == 1) {
+							$_SESSION['cod_publicacion'] = 6;
+						} else {
+							$_SESSION['cod_publicacion'] = 4;
+						}
+					}
+				} else {
+					$_SESSION['cod_publicacion'] = 5;
+				}
 			}
-			// Se cierra la conexión a la BD.
-			mysqli_close($con_bd);
 		}
+		// Se cierra la conexión a la BD.
+		mysqli_close($con_bd);
 	}
 	header('HTTP/1.1 303 See Other');
-	if ($_SESSION['cod_publicacion'] == 5) {
+	if ($_SESSION['cod_publicacion'] == 6) {
 		header('Location: index.php');
 	} else {
 		header('Location: leer.php?id=' . $id_publicacion);
 	}
-} else if(isset($_POST['actualizar_usuario'])) {
+} else if(isset($_POST['actualizar_usuario']) && ($conectado_steam)) {
 	$id_usuario = $_POST['actualizar_usuario'];
 	$id_steam = $_POST['id_steam'];
 	$array_usuario = obtenerDatosSteamUsuario($id_steam);
@@ -171,19 +237,38 @@ if (isset($_POST['enviar_comentario']) && ($conectado_steam)) {
 		$_SESSION['cod_usuario'] = 3;
 	} else {
 		prepararConexionUTF8($con_bd);
-		$sent_prep = $con_bd->prepare("UPDATE usuarios SET nombre=(?), url_perfil=(?), url_avatar=(?) WHERE id=(?)");
+		// Antes tenemos que comprobar la autoridad del usuario modificar otros usuarios, usando su ID de Steam.
+		include('steamauth/userInfo.php');
+		$id_steam = $steamprofile['steamid'];
+		$sent_prep = $con_bd->prepare("SELECT * FROM usuarios WHERE id_steam = (?) AND permisos = (2)");
 		if (!$sent_prep) {
-			$_SESSION['cod_usuario'] = 2;
+			$_SESSION['cod_usuario'] = 4;
 		} else {
-			$sent_prep->bind_param("ssss", $nombre, $url_perfil, $url_avatar, $id_usuario);
+			$sent_prep->bind_param("s", $id_steam);
 			if (!$sent_prep->execute()) {
-				$_SESSION['cod_usuario'] = 2;
+				$_SESSION['cod_usuario'] = 4;
 			} else {
-				$_SESSION['cod_usuario'] = 1;
+				$result_usuario = $sent_prep->get_result();
+				// Comprobamos si el es el autor de la publicación o si tiene permisos de administrador.
+				if (mysqli_num_rows($result_usuario) == 1) {
+					$sent_prep = $con_bd->prepare("UPDATE usuarios SET nombre=(?), url_perfil=(?), url_avatar=(?) WHERE id=(?)");
+					if (!$sent_prep) {
+						$_SESSION['cod_usuario'] = 2;
+					} else {
+						$sent_prep->bind_param("ssss", $nombre, $url_perfil, $url_avatar, $id_usuario);
+						if (!$sent_prep->execute()) {
+							$_SESSION['cod_usuario'] = 2;
+						} else {
+							$_SESSION['cod_usuario'] = 1;
+						}
+					}
+				} else {
+					$_SESSION['cod_usuario'] = 4;
+				}
 			}
-			// Se cierra la conexión a la BD.
-			mysqli_close($con_bd);
 		}
+		// Se cierra la conexión a la BD.
+		mysqli_close($con_bd);
 	}
 	header('HTTP/1.1 303 See Other');
 	header('Location: usuario.php?id=' . $id_usuario);

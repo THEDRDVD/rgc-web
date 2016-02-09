@@ -34,7 +34,7 @@ $es_pagina_publicaciones = true;
 			<?php include('cabecera.php'); ?>
 		</div>
 		<div id="cuerpo_pagina">
-			<div id="zona_principal">
+			<section id="zona_principal">
 			<?php
 			// Se intenta crear la conexión a la BD para leer las publicaciones y los comentarios:
 			try {
@@ -48,7 +48,7 @@ $es_pagina_publicaciones = true;
 			if (isset($_SESSION['cod_publicacion'])) {
 				$cod_publicacion = $_SESSION['cod_publicacion'];
 				unset($_SESSION['cod_publicacion']);
-				if ($cod_publicacion == 5) {
+				if ($cod_publicacion == 6) {
 					echo '<div class="notificacion_correcto">Se ha eliminado la publicación correctamente.</div>';
 				}
 			}
@@ -72,8 +72,8 @@ $es_pagina_publicaciones = true;
 						'de la base de datos.</b> Vuelve más tarde, a ver si se ha podido solucionar el problema.</div>';
 					} else {
 						while($texto = $result_list_textos->fetch_assoc()) {
-							echo '<div class="caja_lectura_publicacion">';
-							echo '<h1 class="titulo_publicacion"><a href="leer.php?id=' . $texto['id_publicacion'] . '" ' .
+							echo '<article class="caja_lectura_publicacion">';
+							echo '<header><h1 class="titulo_publicacion"><a href="leer.php?id=' . $texto['id_publicacion'] . '" ' .
 							'title="Leer esta publicación">' . $texto['titulo'] . '</a></h1>';
 							// Si el autor es Anónimo, no se le pone un enlace a la página de su perfil.
 							if ($texto['nombre'] == 'Anónimo') {
@@ -85,8 +85,8 @@ $es_pagina_publicaciones = true;
 								$texto['fecha'] . ' por <a href="usuario.php?id=' . $texto['id_autor'] .
 								'" title="Ver perfil del autor">' . $texto['nombre'] . '</a></h2>';
 							}
-							echo '<p class="resumen_publicacion">' . $texto['resumen'] . '</p>';
-							echo '</div><br>';
+							echo '<div class="resumen_publicacion">' . $texto['resumen'] . '</div></header>';
+							echo '</article><br>';
 						}
 					}
 					// Cerramos la conexión con la BD, ya no la necesitamos.
@@ -194,10 +194,8 @@ $es_pagina_publicaciones = true;
 				}
 			}
 			?>
-			</div>
-			<div id="zona_lateral">
-				<?php include('zona_lateral.php'); ?>
-			</div>
+			</section>
+			<?php include('zona_lateral.php'); ?>
 		</div>
 		<?php include('pie_pagina.php'); ?>
 	</body> 

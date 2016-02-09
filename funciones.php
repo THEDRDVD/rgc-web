@@ -53,7 +53,7 @@
 		include('cabecera.php');
 		echo '</div>
 		<div id="cuerpo_pagina">
-		<div id="zona_principal">';
+		<section id="zona_principal">';
 	}
 	
 	/* Devuelve, a partir de un entero que representa la categoría del usuario, la cadena de texto
@@ -84,7 +84,6 @@
 			$sent_prep->bind_param("s", $id_steam);
 			$sent_prep->execute();
 			$result = $sent_prep->get_result();
-			
 			// El usuario está registrado en la BD. Hay que comprobar los permisos.
 			if (mysqli_num_rows($result) == 1) {
 				while($usuario = $result->fetch_assoc()) {
@@ -265,11 +264,11 @@
 				echo '<div class="notificacion_advertencia"><b>¡Atención! No has escrito nada para la publicación en sí.</b> Este campo es obligatorio.</div>';
 			}
 			echo '<h1 class"titulos_escribir_publicacion">Vista previa</h1>';
-			echo '<div class="caja_lectura_publicacion">';
-			echo '<h2 class="titulo_publicacion">' . $titulo . '</h2>';
-			echo '<div class="resumen_publicacion">' . str_replace("\n", "<br>", $resumen) . '</div><hr>';
+			echo '<article class="caja_lectura_publicacion">';
+			echo '<header><h2 class="titulo_publicacion">' . $titulo . '</h2>';
+			echo '<div class="resumen_publicacion">' . str_replace("\n", "<br>", $resumen) . '</div></header><hr>';
 			echo '<div class="contenido_publicacion">' . str_replace("\n", "<br>", $contenido) . '</div>';
-			echo '</div>';
+			echo '</article>';
 		}
 		
 		if (isset($editar)) {

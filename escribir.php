@@ -34,7 +34,7 @@ $es_pagina_publicaciones = false;
 			<?php include('cabecera.php'); ?>
 		</div>
 		<div id="cuerpo_pagina">
-			<div id="zona_principal">
+			<section id="zona_principal">
 			<?php
 			if ($conectado_steam) {
 				// Se intenta crear la conexión a la BD para leer las publicaciones y los comentarios
@@ -56,7 +56,7 @@ $es_pagina_publicaciones = false;
 					} else if ($tipoUsuario == 1 || $tipoUsuario == 2) {
 						paginaEscribir($con_bd, $steamprofile['steamid']);
 					} else {
-						echo '<div class="notificacion_advertencia"><b>No tienes suficientes permisos para eliminar textos.</b></div>';
+						echo '<div class="notificacion_advertencia"><b>No tienes suficientes permisos para escribir textos.</b></div>';
 					}
 					
 					// Cerramos la conexión tras terminar de consultar los permisos sobre el usuario.
@@ -67,10 +67,8 @@ $es_pagina_publicaciones = false;
 				echo '<div class="notificacion_advertencia"><b>Tienes que estar conectado a Steam a través de la página para poder escribir textos.</b></div>';
 			}
 			?>
-			</div>
-			<div id="zona_lateral">
-				<?php include('zona_lateral.php'); ?>
-			</div>
+			</section>
+			<?php include('zona_lateral.php'); ?>
 		</div>
 		<?php include('pie_pagina.php'); ?>
 	</body>

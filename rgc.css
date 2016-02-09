@@ -105,12 +105,6 @@ body {
 	float: right;
 	width: 30%;
 }
-#boton_steam {
-}
-#boton_acotar {
-	width: 100%;
-	margin-bottom: 20px;
-}
 #busqueda_avanzada {
 	padding: 15px;
 	border: 2px solid #838383;
@@ -119,28 +113,6 @@ body {
 .elemento_busqueda {
 	margin-bottom: 10px;
 	min-width: 60%;
-}
-.caja_servidor {
-	background: #FCFCFC;
-	color: #333;
-	text-align: center;
-}
-.titulo_caja_servidor {
-	margin: 5px;
-	font-weight: bold;
-	border: transparent;
-	background: transparent;
-}
-.img_mapa_server {
-	display: block;
-	height: auto;
-	max-width: 100%;
-}
-.dato_server {
-	padding: 10px 20px;
-}
-.boton_jugar {
-	width: 100%;
 }
 .boton_comunidad_amiga {
 	border-radius: 20px;
@@ -193,6 +165,9 @@ body {
 	background-repeat: no-repeat;
 	background-position: 100% 100%;
 }
+#nombre_perfil_usuario {
+	font-size: 30px;
+}
 #nombre_perfil_usuario a {
 	font-weight: bold;
 	transition-duration: 0.15s;
@@ -236,37 +211,26 @@ body {
 	color: #FFC946;
 	cursor: pointer;
 }
-.modal_elim_coment {
-	color: black;
+.notificacion_correcto, .notificacion_error, .notificacion_advertencia, .notificacion_info {
 	border-radius: 2px;
+	padding: 15px;
+	margin: 5px 0px;
 }
 .notificacion_correcto {
 	background: lightgreen;
-	border-radius: 2px;
 	color: green;
-	padding: 15px;
-	margin: 5px 0px;
 }
 .notificacion_error {
 	background: #FFC9C9;
-	border-radius: 2px;
 	color: #F00000;
-	padding: 15px;
-	margin: 5px 0px;
 }
 .notificacion_advertencia {
 	background: #FFFCDA;
-	border-radius: 2px;
 	color: #BA9103;
-	padding: 15px;
-	margin: 5px 0px;
 }
 .notificacion_info {
 	background: #E7FFFB;
-	border-radius: 2px;
 	color: #035D68;
-	padding: 15px;
-	margin: 5px 0px;
 }
 .titulo_seccion_zona_lateral {
 	margin: 15px 0px 5px;

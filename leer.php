@@ -30,7 +30,7 @@ $es_pagina_publicaciones = false;
 	} catch (Exception $e) {
 		echo '<head><title>Rebel Gamers Clan - Leer publicación</title>';
 		mostrarPrimeraPartePagina();
-		echo '<div class="notificacion_error"><b>Ha fallado la conexión con la base de datos.</b> Vuelve más tarde, a ver si se ha podido solucionar el problema.</div></div>';
+		echo '<div class="notificacion_error"><b>Ha fallado la conexión con la base de datos.</b> Vuelve más tarde, a ver si se ha podido solucionar el problema.</div>';
 		$error_bd = true;
 	}
 	
@@ -47,7 +47,7 @@ $es_pagina_publicaciones = false;
 				echo '<head><title>Rebel Gamers Clan - Leer publicación</title>';
 				mostrarPrimeraPartePagina();
 				echo '<div class="notificacion_error"><b>Ha habido un problema obteniendo los datos de la publicación de la base de datos.</b>' .
-				' Vuelve más tarde, a ver si se ha podido solucionar el problema.</div></div>';
+				' Vuelve más tarde, a ver si se ha podido solucionar el problema.</div>';
 			} else {
 				$sent_prep->bind_param("i", $id_publicacion);
 				$sent_prep->execute();
@@ -108,16 +108,20 @@ $es_pagina_publicaciones = false;
 								echo '<div class="notificacion_correcto">Se han publicado los cambios correctamente.</div>';
 								break;
 							case 3:
-								echo '<div class="notificacion_error"><b>Ha ocurrido un problema eliminando la publicación.</b> Inténtalo de nuevo.</div>';
+								echo '<div class="notificacion_error"><b>Ha fallado la conexión con la base de datos.</b> Vuelve más tarde, a ver si se ha podido solucionar el problema.</div>';
 								break;
 							case 4:
-								echo '<div class="notificacion_error"><b>Ha fallado la conexión con la base de datos.</b> Vuelve más tarde, a ver si se ha podido solucionar el problema.</div>';
+								echo '<div class="notificacion_error"><b>Ha ocurrido un problema eliminando la publicación.</b> Inténtalo de nuevo.</div>';
+								break;
+							case 5:
+								echo '<div class="notificacion_error"><b>No tienes permiso para realizar esta acción.</b>' .
+								' Esto es debido a que no eres el autor de la publicación o no eres un administrador de la página.</div>';
 								break;
 						}
 						
 						// Empezamos a mostrar la publicación.
-						echo '<div id="caja_lectura_publicacion_' . $id_publicacion . '" class="caja_lectura_publicacion"><div id="publicacion_' .
-						$id_publicacion . '"><h1 class="titulo_publicacion">' . $publicacion['titulo'] .'</h1>';
+						echo '<article id="publicacion_' . $id_publicacion . '" class="caja_lectura_publicacion">';
+						echo '<header><h1 class="titulo_publicacion">' . $publicacion['titulo'] .'</h1>';
 						// Si el autor es Anónimo, no se le pone un enlace a la página de su perfil.
 						if ($publicacion['nombre'] == 'Anónimo') {
 							echo '<h2 class="datos_publicacion">' . tratarCategoria($publicacion['categoria']) . ' - Escrito el ' .
@@ -128,8 +132,8 @@ $es_pagina_publicaciones = false;
 							$publicacion['fecha'] . ' por <a href="usuario.php?id=' . $publicacion['id_autor'] . '" title="Ver perfil del autor">' . $publicacion['nombre'] . '</a></h2>';
 						}
 						// Sustituímos los saltos de línea por la etiqueta '<br>' para que se muestre correctamente en la página.
-						echo '<div class="resumen_publicacion">' . str_replace("\n", "<br>", $publicacion['resumen']) . '</div><hr>';
-						echo '<div class="contenido_publicacion">' . str_replace("\n", "<br>", $publicacion['contenido']) . '</div></div>';
+						echo '<div class="resumen_publicacion">' . str_replace("\n", "<br>", $publicacion['resumen']) . '</div></header><hr>';
+						echo '<div class="contenido_publicacion">' . str_replace("\n", "<br>", $publicacion['contenido']) . '</div>';
 						// Comprobamos si el usuario es el mismo autor de la publicación.
 						if ($id_usuario != "" && $id_usuario == $publicacion['id_autor']) {
 							// En caso de que lo sea, tiene derecho a 'Editar' o 'Eliminar' su publicación.
@@ -139,7 +143,7 @@ $es_pagina_publicaciones = false;
 							echo ' <form action="confirmar_eliminar.php" method="post" class="form_eliminar"><button class="boton_eliminar" type="submit" ' .
 							'name="publicacion">Eliminar</button><input type="hidden" name="id_publicacion" value="' . $id_publicacion . '" /></form></div>';
 						}
-						echo '</div>';
+						echo '</article>';
 						
 						// Sección de comentarios. Hay que buscar si hay comentarios en la base de datos.
 						echo '<h2 id="comentarios">Comentarios</h2>';
@@ -170,6 +174,10 @@ $es_pagina_publicaciones = false;
 								break;
 							case 7:
 								echo '<div class="notificacion_error"><b>Ha ocurrido un problema eliminando el comentario.</b> Inténtalo de nuevo.</div>';
+								break;
+							case 8:
+								echo '<div class="notificacion_error"><b>No tienes permiso para realizar esta acción.</b>' .
+								' Esto es debido a que no eres el autor del comentario o no eres un administrador de la página.</div>';
 								break;
 						}
 						
@@ -240,29 +248,27 @@ $es_pagina_publicaciones = false;
 								echo '<input type="hidden" name="id_publicacion" value="' . $id_publicacion . '" />';
 								echo '<input type="hidden" name="id_usuario" value="' . $id_usuario . '" /></form>';
 							}
-							echo '</div>';
 						}
 					}
 				// Si no existe una publicación con esa ID, informamos de la situación.
 				} else {
 					echo '<head><title>Rebel Gamers Clan - Leer publicación</title>';
 					mostrarPrimeraPartePagina();
-					echo '<div class="notificacion_advertencia"><b>No existe ninguna publicación con la ID que has introducido.</b></div></div>';
+					echo '<div class="notificacion_advertencia"><b>No existe ninguna publicación con la ID que has introducido.</b></div>';
 				}
 			}
 		// Si no está indicada la ID por parámetro, tampoco se mostrará nada.
 		} else {
 			echo '<head><title>Rebel Gamers Clan - Leer publicación</title>';
 			mostrarPrimeraPartePagina();
-			echo '<div class="notificacion_advertencia"><b>No has introducido ninguna ID.</b></div></div>';
+			echo '<div class="notificacion_advertencia"><b>No has introducido ninguna ID.</b></div>';
 		}
 		// Cerramos la conexión con la BD, ya no la necesitamos.
 		mysqli_close($con_bd);
 	}
 	?>
-			<div id="zona_lateral">
-				<?php include('zona_lateral.php'); ?>
-			</div>
+			</section>
+			<?php include('zona_lateral.php'); ?>
 		</div>
 		<?php include('pie_pagina.php'); ?>
 	</body>
