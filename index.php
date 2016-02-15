@@ -25,9 +25,12 @@ $es_pagina_publicaciones = true;
 	<head>
 		<title>Rebel Gamers Clan - Inicio</title>
 		<meta charset="utf-8" />
-		<link rel="icon" type="image/png" href="./img/logo_rgc01.png">
+		<meta name="description" content="Página principal de Rebel Gamers Clan">
+		<meta name="keywords" content="rebel,gamers,clan,comunidad,team,fortress,española,españa,steam,noticias,principal,publicaciones">
+		<meta name="author" content="DR.DVD">
+		<link rel="icon" href="/img/favicon.ico">
 		<!-- Carga el CSS de RGC -->
-		<link rel="stylesheet" type="text/css" href="./rgc.css">
+		<link rel="stylesheet" type="text/css" href="/rgc.css">
 	</head>
 	<body>
 		<div id="cabecera">
@@ -73,7 +76,7 @@ $es_pagina_publicaciones = true;
 					} else {
 						while($texto = $result_list_textos->fetch_assoc()) {
 							echo '<article class="caja_lectura_publicacion">';
-							echo '<header><h1 class="titulo_publicacion"><a href="leer.php?id=' . $texto['id_publicacion'] . '" ' .
+							echo '<header><h1 class="titulo_publicacion"><a href="/leer.php?id=' . $texto['id_publicacion'] . '" ' .
 							'title="Leer esta publicación">' . $texto['titulo'] . '</a></h1>';
 							// Si el autor es Anónimo, no se le pone un enlace a la página de su perfil.
 							if ($texto['nombre'] == 'Anónimo') {
@@ -82,7 +85,7 @@ $es_pagina_publicaciones = true;
 								// Si el autor no es anónimo, se pone un enlace para que los usuarios puedan ver su perfil y lo que ha escrito.
 							} else {
 								echo '<h2 class="datos_publicacion">' . tratarCategoria($texto['categoria']) . ' - Escrito el ' .
-								$texto['fecha'] . ' por <a href="usuario.php?id=' . $texto['id_autor'] .
+								$texto['fecha'] . ' por <a href="/usuario.php?id=' . $texto['id_autor'] .
 								'" title="Ver perfil del autor">' . $texto['nombre'] . '</a></h2>';
 							}
 							echo '<div class="resumen_publicacion">' . $texto['resumen'] . '</div></header>';
@@ -166,7 +169,7 @@ $es_pagina_publicaciones = true;
 						if (mysqli_num_rows($result_list_textos) > 0) {
 							while($texto = $result_list_textos->fetch_assoc()) {
 								echo '<div class="caja_lectura_publicacion">';
-								echo '<h1 class="titulo_publicacion"><a href="leer.php?id=' . $texto['id_publicacion'] . '" ' .
+								echo '<h1 class="titulo_publicacion"><a href="/leer.php?id=' . $texto['id_publicacion'] . '" ' .
 								'title="Leer esta publicación">' . $texto['titulo'] . '</a></h1>';
 								// Si el autor es Anónimo, no se le pone un enlace a la página de su perfil.
 								if ($texto['nombre'] == 'Anónimo') {
@@ -175,14 +178,14 @@ $es_pagina_publicaciones = true;
 									// Si el autor no es anónimo, se pone un enlace para que los usuarios puedan ver su perfil y lo que ha escrito.
 								} else {
 									echo '<h2 class="datos_publicacion">' . tratarCategoria($texto['categoria']) . ' - Escrito el ' .
-									$texto['fecha'] . ' por <a href="usuario.php?id=' . $texto['id_autor'] .
+									$texto['fecha'] . ' por <a href="/usuario.php?id=' . $texto['id_autor'] .
 									'" title="Ver perfil del autor">' . $texto['nombre'] . '</a></h2>';
 								}
 								echo '<p class="resumen_publicacion">' . $texto['resumen'] . '</p>';
 								echo '</div><br>';
 							}
 							// Botón con el listado de noticias completo
-							echo '<form action="index.php?completo" method="get"><button class="boton_normal" ' .
+							echo '<form action="/index.php?completo" method="get"><button class="boton_normal" ' .
 							'title="Muestra todas las publicaciones escritas hasta ahora, ordenadas de más reciente a más antigua."' .
 							' type="submit" name="completo" value="1"><b>Ver listado completo de publicaciones</b></button></form>';
 						} else {

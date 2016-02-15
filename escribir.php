@@ -25,9 +25,12 @@ $es_pagina_publicaciones = false;
 	<head>
 		<title>Rebel Gamers Clan - Escribir publicación</title>
 		<meta charset="utf-8" />
-		<link rel="icon" type="image/png" href="./img/logo_rgc01.png">
+		<meta name="description" content="Escribir publicación en Rebel Gamers Clan">
+		<meta name="keywords" content="rebel,gamers,clan,comunidad,team,fortress,española,españa,steam,escribir,publicacion">
+		<meta name="author" content="DR.DVD">
+		<link rel="icon" href="/img/favicon.ico">
 		<!-- Carga el CSS de RGC -->
-		<link rel="stylesheet" type="text/css" href="./rgc.css">
+		<link rel="stylesheet" type="text/css" href="/rgc.css">
 	</head>
 	<body>
 		<div id="cabecera">

@@ -72,6 +72,7 @@ body {
 .titulo_publicacion, .titulo_publicacion a  {
 	margin: 0px;
 	font-weight: bold;
+	font-size: 25px;
 }
 .titulo_publicacion a  {
 	text-decoration: none;
@@ -300,4 +301,71 @@ body {
 }
 .boton_editar_usuario {
 	width: 184px;
+}
+.bloque_servicio {
+	border: 2px solid white;
+	border-radius: 15px;
+	background-color: #3B3B3B;
+	margin: 15px 0px;
+}
+.bloque_servicio a {
+	transition-duration: 0.15s;
+	text-decoration: none;
+	color: #DBDBDB;
+}
+.bloque_servicio a:hover {
+	text-shadow: 0px 0px 5px #B6B6B6;
+	transition-duration: 0.15s;
+	color: #F3F3F3;
+}
+.subbloque_servicio {
+	display: table-cell;
+	vertical-align: middle;
+	padding: 10px;
+}
+.subbloque_servicio_desc {
+	padding: 0px 15px 15px;
+}
+.elemento_subbloque_servicio {
+	margin: 0px;
+}
+.titulo_tipo_servicio, .desc_tipo_servicio {
+	margin: 0px;
+}
+.titulo_conocenos, .parrofo_conocenos {
+	margin: 0px;
+}
+.parrofo_conocenos {
+	margin-bottom: 10px;
+}
+.parrofo_conocenos a {
+	text-decoration: none;
+	color: #FF7A26;
+}
+.parrofo_conocenos a:hover {
+	color: #FFA871;
+}
+#prologo_historia {
+	margin: 10px 0px 40px;
+	text-align: center;
+}
+#titulo_prologo_historia {
+	max-width: 550px;
+	margin: auto;
+}
+.caja_imagen_parrafo_izquierda,	.caja_imagen_parrafo_derecha {
+	padding: 10px;
+	border: 2px solid #595959;
+	font-size: 12px;
+}
+.caja_imagen_parrafo_izquierda img, .caja_imagen_parrafo_derecha img {
+	border: 1px solid #595959;
+}
+.caja_imagen_parrafo_izquierda {
+	margin: 0px 10px 10px 0px;
+	float: left;
+}
+.caja_imagen_parrafo_derecha {
+	margin: 0px 0px 10px 10px;
+	float: right;
 }

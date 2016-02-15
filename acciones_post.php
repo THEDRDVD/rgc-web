@@ -58,7 +58,7 @@ if (isset($_POST['enviar_comentario']) && ($conectado_steam)) {
 		}
 	}
 	header('HTTP/1.1 303 See Other');
-	header('Location: leer.php?id=' . $id_publicacion . '#comentarios');
+	header('Location: /leer.php?id=' . $id_publicacion . '#comentarios');
 } else if (isset($_POST['modificar_comentario']) && ($conectado_steam)) {
 	$texto_comentario_editado = $_POST['texto_comentario_editado'];
 	$id_publicacion = $_POST['id_publicacion'];
@@ -119,7 +119,7 @@ if (isset($_POST['enviar_comentario']) && ($conectado_steam)) {
 		}
 	}
 	header('HTTP/1.1 303 See Other');
-	header('Location: leer.php?id=' . $id_publicacion . '#comentarios');
+	header('Location: /leer.php?id=' . $id_publicacion . '#comentarios');
 } else if (isset($_POST['eliminar_comentario']) && ($conectado_steam)) {
 	$id_publicacion = $_POST['id_publicacion'];
 	$id_comentario = $_POST['id_comentario'];
@@ -169,7 +169,7 @@ if (isset($_POST['enviar_comentario']) && ($conectado_steam)) {
 		mysqli_close($con_bd);
 	}
 	header('HTTP/1.1 303 See Other');
-	header('Location: leer.php?id=' . $id_publicacion . '#comentarios');
+	header('Location: /leer.php?id=' . $id_publicacion . '#comentarios');
 } else if (isset($_POST['eliminar_publicacion']) && ($conectado_steam)) {
 	$id_publicacion = $_POST['id_publicacion'];
 	
@@ -219,9 +219,9 @@ if (isset($_POST['enviar_comentario']) && ($conectado_steam)) {
 	}
 	header('HTTP/1.1 303 See Other');
 	if ($_SESSION['cod_publicacion'] == 6) {
-		header('Location: index.php');
+		header('Location: /index.php');
 	} else {
-		header('Location: leer.php?id=' . $id_publicacion);
+		header('Location: /leer.php?id=' . $id_publicacion);
 	}
 } else if(isset($_POST['actualizar_usuario']) && ($conectado_steam)) {
 	$id_usuario = $_POST['actualizar_usuario'];
@@ -271,12 +271,12 @@ if (isset($_POST['enviar_comentario']) && ($conectado_steam)) {
 		mysqli_close($con_bd);
 	}
 	header('HTTP/1.1 303 See Other');
-	header('Location: usuario.php?id=' . $id_usuario);
+	header('Location: /usuario.php?id=' . $id_usuario);
 } else if(isset($_POST['cancelar'])) {
 	$id_publicacion = $_POST['id_publicacion'];
 	header('HTTP/1.1 303 See Other');
-	header('Location: leer.php?id=' . $id_publicacion . '#comentarios');
+	header('Location: /leer.php?id=' . $id_publicacion . '#comentarios');
 } else {
-	header('Location: index.php');
+	header('Location: /index.php');
 }
 ?>

@@ -29,7 +29,7 @@
 				echo '<div class="notificacion_advertencia"><b>La búsqueda está desactivada porque ha fallado la conexión con la base de datos.</b></div>';
 			} else {
 		?>
-		<form id="busqueda_avanzada" action="index.php" method="get">
+		<form id="busqueda_avanzada" action="/index.php" method="get">
 			<div><label for="palabras_clave"><b>Palabras clave</label></b></div>
 			<div><input type="text" class="elemento_busqueda" placeholder="Separa por espacios" id="palabras_clave" name="buscar"></div>
 			<div><label for="categorias_publicacion"><b>Categorías</label></b></div>
@@ -53,12 +53,12 @@
 	<hr>
 	<h2 class="titulo_seccion_zona_lateral">COMUNIDADES AMIGAS</h2>
 	<div id="comunidades_amigas">
-		<a href="http://tf2portal.es/" target="_blank" title="TF2Portal.es"><img class="boton_comunidad_amiga" src="./img/comunidades/amigos_tf2portal01.png"></img></a>
-		<a href="http://onlinesdk.webege.com/" title="OnlineSDK" target="_blank"><img class="boton_comunidad_amiga" src="./img/comunidades/amigos_spanishdevelopmentkit03.png"></img></a>
-		<a href="http://steelandstone.es/" title="Steel & Stone" target="_blank"><img class="boton_comunidad_amiga" src="./img/comunidades/amigos_steelandstone03.png"></img></a>
-		<a href="http://revolver.tf/" title="Revolver.tf" target="_blank"><img class="boton_comunidad_amiga" src="./img/comunidades/amigos_revolvertf01.png"></img></a>
-		<a href="http://pajarosdebarro.com/" title="Pájaros de Barro" target="_blank"><img class="boton_comunidad_amiga" src="./img/comunidades/amigos_pdb01.png"></img></a>
-		<a href="http://tf2stadium.com/" title="TF2Stadium" target="_blank"><img class="boton_comunidad_amiga" src="./img/comunidades/amigos_tf2stadium01.jpg"></img></a>
+		<a href="http://tf2portal.es/" target="_blank" title="TF2Portal.es"><img class="boton_comunidad_amiga" src="/img/comunidades/amigos_tf2portal01.png"></img></a>
+		<a href="http://onlinesdk.webege.com/" title="OnlineSDK" target="_blank"><img class="boton_comunidad_amiga" src="/img/comunidades/amigos_spanishdevelopmentkit03.png"></img></a>
+		<a href="http://steelandstone.es/" title="Steel & Stone" target="_blank"><img class="boton_comunidad_amiga" src="/img/comunidades/amigos_steelandstone03.png"></img></a>
+		<a href="http://revolver.tf/" title="Revolver.tf" target="_blank"><img class="boton_comunidad_amiga" src="/img/comunidades/amigos_revolvertf01.png"></img></a>
+		<a href="http://pajarosdebarro.com/" title="Pájaros de Barro" target="_blank"><img class="boton_comunidad_amiga" src="/img/comunidades/amigos_pdb01.png"></img></a>
+		<a href="http://tf2stadium.com/" title="TF2Stadium" target="_blank"><img class="boton_comunidad_amiga" src="/img/comunidades/amigos_tf2stadium01.jpg"></img></a>
 	</div>
 	<hr>
 	<h2 class="titulo_seccion_zona_lateral">NUESTRO TWITTER</h2>

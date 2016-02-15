@@ -28,7 +28,10 @@ $es_pagina_publicaciones = false;
 		@$con_bd = new mysqli($datosbd['conexion'], $datosbd['usuario1'], $datosbd['contra1'], $datosbd['nombre_bd']);
 	// En caso de fallo, se muestra un mensaje de error, y se cambia el valor de la variable $error_bd a 'true' para que no intente usar la BD.
 	} catch (Exception $e) {
-		echo '<head><title>Rebel Gamers Clan - Eliminar publicación/comentario</title>';
+		echo '<head><title>Rebel Gamers Clan - Eliminar publicación/comentario</title>
+		<meta name="description" content="Eliminar contenido escrito de Rebel Gamers Clan">
+		<meta name="keywords" content="rebel,gamers,clan,comunidad,team,fortress,española,españa,steam,eliminar,publicacion,comentario">
+		<meta name="author" content="DR.DVD">';
 		mostrarPrimeraPartePagina();
 		echo '<div class="notificacion_error"><b>Ha fallado la conexión con la base de datos.</b> Vuelve más tarde, a ver si se ha podido solucionar el problema.</div>';
 		$error_bd = true;
@@ -38,7 +41,10 @@ $es_pagina_publicaciones = false;
 		prepararConexionUTF8($con_bd);
 		// Comprobamos si se quiere borrar una 'publicacion' o un 'comentario'.
 		if (isset($_POST['publicacion'])) {
-			echo '<head><title>Rebel Gamers Clan - Eliminar publicación</title>';
+			echo '<head><title>Rebel Gamers Clan - Eliminar publicación</title>
+			<meta name="description" content="Eliminar contenido escrito de Rebel Gamers Clan">
+			<meta name="keywords" content="rebel,gamers,clan,comunidad,team,fortress,española,españa,steam,eliminar,publicacion,comentario">
+			<meta name="author" content="DR.DVD">';
 			mostrarPrimeraPartePagina();
 			if ($conectado_steam) {
 				// Obtenemos la ID introducida.
@@ -58,7 +64,7 @@ $es_pagina_publicaciones = false;
 							// Si es el autor de la publicación:
 							if ($publicacion['id_steam'] ==  $steamprofile['steamid']) {
 								echo '<div class="notificacion_advertencia">¿Estás seguro de que quieres borrar la publicación <b>\'' . $publicacion['titulo'] . '\'</b>?</div>';
-								echo '<form action="acciones_post.php" method="post">';
+								echo '<form action="/acciones_post.php" method="post">';
 								echo '<button class="boton_normal" type="submit" name="eliminar_publicacion" ' .
 								'title="Haz desaparecer esta publicación de la faz de la... página web. >:)"><b>Sí, bórrala</b></button> ';
 								echo '<button class="boton_normal" type="submit" name="cancelar" title="¡No, ha habido una confusión! D\':"><b>No, cancelar la acción</b></button>';
@@ -75,7 +81,10 @@ $es_pagina_publicaciones = false;
 				echo '<div class="notificacion_advertencia">Tienes que estar conectado a Steam a través de la página para poder eliminar un comentario.</div>';
 			}
 		} else if (isset($_POST['comentario'])) {
-			echo '<head><title>Rebel Gamers Clan - Eliminar comentario</title>';
+			echo '<head><title>Rebel Gamers Clan - Eliminar comentario</title>
+			<meta name="description" content="Eliminar contenido escrito de Rebel Gamers Clan">
+			<meta name="keywords" content="rebel,gamers,clan,comunidad,team,fortress,española,españa,steam,eliminar,publicacion,comentario">
+			<meta name="author" content="DR.DVD">';
 			mostrarPrimeraPartePagina();
 			if ($conectado_steam) {
 				// Obtenemos la ID introducida.
@@ -95,7 +104,7 @@ $es_pagina_publicaciones = false;
 							// Si es el autor del comentario:
 							if ($comentario['id_steam'] ==  $steamprofile['steamid']) {
 								echo '<div class="notificacion_advertencia">¿Estás seguro de que quieres borrar este comentario?</div>';
-								echo '<form action="acciones_post.php" method="post">';
+								echo '<form action="/acciones_post.php" method="post">';
 								echo '<button class="boton_normal" type="submit" name="eliminar_comentario" ' .
 								'title="Haz desaparecer este comentario de la faz de la... página web. >:)"><b>Sí, bórralo</b></button> ';
 								echo '<button class="boton_normal" type="submit" name="cancelar" title="¡No, ha habido una confusión! D\':"><b>No, cancelar la acción</b></button>';
@@ -114,7 +123,10 @@ $es_pagina_publicaciones = false;
 			}
 		// Si no está indicado por parámetro POST 'publicacion' o 'comentario', no se mostrará nada.
 		} else {
-			echo '<head><title>Rebel Gamers Clan - Eliminar publicación/comentario</title>';
+			echo '<head><title>Rebel Gamers Clan - Eliminar publicación/comentario</title>
+			<meta name="description" content="Eliminar contenido escrito de Rebel Gamers Clan">
+			<meta name="keywords" content="rebel,gamers,clan,comunidad,team,fortress,española,españa,steam,eliminar,publicacion,comentario">
+			<meta name="author" content="DR.DVD">';
 			mostrarPrimeraPartePagina();
 			echo '<div class="notificacion_advertencia"><b>No se han reconocido los parámetros enviados.</b> Quizás hayas llegado a esta página por error.</div>';
 		}

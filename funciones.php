@@ -45,9 +45,9 @@
 	*/
 	function mostrarPrimeraPartePagina() {
 		echo '<meta charset="utf-8" />
-		<link rel="icon" type="image/png" href="./img/logo_rgc01.png">
+		<link rel="icon" href="/img/favicon.ico">
 		<!-- Carga el CSS de RGC -->
-		<link rel="stylesheet" type="text/css" href="./rgc.css">
+		<link rel="stylesheet" type="text/css" href="/rgc.css">
 		</head><body>
 		<div id="cabecera">';
 		include('cabecera.php');
@@ -170,7 +170,7 @@
 						}
 						mysqli_close($con_bd_2);
 						header('HTTP/1.1 303 See Other');
-						header('Location: leer.php?id=' . $id_publicacion);
+						header('Location: /leer.php?id=' . $id_publicacion);
 					} else {
 						echo '<div class="notificacion_error"><b>No se ha podido publicar el texto en la base de datos.</b> Inténtalo de nuevo.</div>';
 					}
@@ -276,7 +276,7 @@
 		} else {
 			echo '<h1>Escribe la publicación</h1>';
 		}
-		echo '<form id="form_publicacion" action="escribir.php" method="post">';
+		echo '<form id="form_publicacion" action="/escribir.php" method="post">';
 		
 		// Fecha de la publicación.
 		echo '<div id="form_parte_fecha"><div><label><input id="checkbox_fecha_actual" type="checkbox" value="fecha_actual"';

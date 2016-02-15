@@ -28,7 +28,10 @@ $es_pagina_publicaciones = false;
 		@$con_bd = new mysqli($datosbd['conexion'], $datosbd['usuario1'], $datosbd['contra1'], $datosbd['nombre_bd']);
 	// En caso de fallo, se muestra un mensaje de error, y se cambia el valor de la variable $error_bd a 'true' para que no intente usar la BD.
 	} catch (Exception $e) {
-		echo '<head><title>Rebel Gamers Clan - Perfil de usuario</title>';
+		echo '<head><title>Rebel Gamers Clan - Perfil de usuario</title>
+		<meta name="description" content="Perfil de un usuario en la página de Rebel Gamers Clan">
+		<meta name="keywords" content="rebel,gamers,clan,comunidad,team,fortress,española,españa,steam,perfil,usuario">
+		<meta name="author" content="DR.DVD">';
 		mostrarPrimeraPartePagina();
 		echo '<div class="notificacion_error"><b>Ha fallado la conexión con la base de datos.</b> Vuelve más tarde, a ver si se ha podido solucionar el problema.</div>';
 		$error_bd = true;
@@ -44,7 +47,10 @@ $es_pagina_publicaciones = false;
 			// Se crea la sentencia para buscar al usuario en la BD.
 			$sent_prep = $con_bd->prepare("SELECT * FROM usuarios WHERE id = (?) AND id != 0");
 			if (!$sent_prep) {
-				echo '<head><title>Rebel Gamers Clan - Perfil de usuario</title>';
+				echo '<head><title>Rebel Gamers Clan - Perfil de usuario</title>
+				<meta name="description" content="Perfil de un usuario en la página de Rebel Gamers Clan">
+				<meta name="keywords" content="rebel,gamers,clan,comunidad,team,fortress,española,españa,steam,perfil,usuario">
+				<meta name="author" content="DR.DVD">';
 				mostrarPrimeraPartePagina();
 				echo '<div class="notificacion_error"><b>Ha habido un problema buscando el usuario en la base de datos.</b>' .
 				' Vuelve más tarde, a ver si se ha podido solucionar el problema.</div>';
@@ -65,7 +71,10 @@ $es_pagina_publicaciones = false;
 					
 					while($usuario = $result_usuario->fetch_assoc()) {
 						// Añadimos el título y demás información de la etiqueta 'head' y abrimos el 'body'.
-						echo '<head><title>Rebel Gamers Clan - Perfil de ' . $usuario['nombre'] . '</title>';
+						echo '<head><title>Rebel Gamers Clan - Perfil de ' . $usuario['nombre'] . '</title>
+						<meta name="description" content="Perfil de ' . $usuario['nombre'] . ' en la página de Rebel Gamers Clan">
+						<meta name="keywords" content="rebel,gamers,clan,comunidad,team,fortress,española,españa,steam,perfil,usuario">
+						<meta name="author" content="DR.DVD">';
 						mostrarPrimeraPartePagina();
 						
 						// Mensaje de alerta sobre el usuario, dependiendo de si se ha realizado una acción.
@@ -113,7 +122,7 @@ $es_pagina_publicaciones = false;
 									while($usuario_2 = $result_usuario_2->fetch_assoc()) {
 										// El usuario es un administrador.
 										if ($usuario_2['permisos'] == 2) {
-											echo '<br><form action="acciones_post.php" method="post"><button class="boton_normal" style="width: ' .
+											echo '<br><form action="/acciones_post.php" method="post"><button class="boton_normal" style="width: ' .
 											$ancho_avatar . 'px;" name="actualizar_usuario" value="' . $id_usuario . '"><b>Actualizar información de Steam del usuario</b></button>' .
 											'<input type="hidden" name="id_steam" value="' . $usuario['id_steam'] . '"></form>';
 										}
@@ -146,7 +155,7 @@ $es_pagina_publicaciones = false;
 									echo 'Ha escrito ' . $num_escritos . ' publicaciones.<ul id="lista_publicaciones_usuario" class="elemento_perfil_usuario">';
 								}
 								while($texto = $result_textos_escritos->fetch_assoc()) {
-									echo '<li class="elemento_lista_publicaciones_usuario"><a href="leer.php?id=' . $texto['id'] .
+									echo '<li class="elemento_lista_publicaciones_usuario"><a href="/leer.php?id=' . $texto['id'] .
 									'" title="Leer publicación escrita por este usuario">' . $texto['titulo'] . '</a></li>';
 								}
 								echo '</ul>';
@@ -159,14 +168,20 @@ $es_pagina_publicaciones = false;
 					}
 				// Si no existe una publicación con esa ID, informamos de la situación.
 				} else {
-					echo '<head><title>Rebel Gamers Clan - Perfil de usuario</title>';
+					echo '<head><title>Rebel Gamers Clan - Perfil de usuario</title>
+					<meta name="description" content="Perfil de un usuario en la página de Rebel Gamers Clan">
+					<meta name="keywords" content="rebel,gamers,clan,comunidad,team,fortress,española,españa,steam,perfil,usuario">
+					<meta name="author" content="DR.DVD">';
 					mostrarPrimeraPartePagina();
 					echo '<div class="notificacion_advertencia"><b>No existe ningún usuario que tenga la ID que has introducido.</b></div>';
 				}
 			}
 		// Si no está indicada la ID por parámetro, tampoco se mostrará nada.
 		} else {
-			echo '<head><title>Rebel Gamers Clan - Perfil de usuario</title>';
+			echo '<head><title>Rebel Gamers Clan - Perfil de usuario</title>
+			<meta name="description" content="Perfil de un usuario en la página de Rebel Gamers Clan">
+			<meta name="keywords" content="rebel,gamers,clan,comunidad,team,fortress,española,españa,steam,perfil,usuario">
+			<meta name="author" content="DR.DVD">';
 			mostrarPrimeraPartePagina();
 			echo '<div class="notificacion_advertencia"><b>No has introducido ninguna ID.</b></div>';
 		}

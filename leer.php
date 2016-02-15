@@ -28,7 +28,10 @@ $es_pagina_publicaciones = false;
 		@$con_bd = new mysqli($datosbd['conexion'], $datosbd['usuario1'], $datosbd['contra1'], $datosbd['nombre_bd']);
 	// En caso de fallo, se muestra un mensaje de error, y se cambia el valor de la variable $error_bd a 'true' para que no intente usar la BD.
 	} catch (Exception $e) {
-		echo '<head><title>Rebel Gamers Clan - Leer publicación</title>';
+		echo '<head><title>Rebel Gamers Clan - Leer publicación</title>
+		<meta name="description" content="Leer una publicación escrita en Rebel Gamers Clan">
+		<meta name="keywords" content="rebel,gamers,clan,comunidad,team,fortress,española,españa,steam,leer,publicacion">
+		<meta name="author" content="DR.DVD">';
 		mostrarPrimeraPartePagina();
 		echo '<div class="notificacion_error"><b>Ha fallado la conexión con la base de datos.</b> Vuelve más tarde, a ver si se ha podido solucionar el problema.</div>';
 		$error_bd = true;
@@ -44,7 +47,10 @@ $es_pagina_publicaciones = false;
 			// Se crea la sentencia para buscar la publicación en la BD.
 			$sent_prep = $con_bd->prepare("SELECT publicaciones.*, usuarios.id AS id_autor, usuarios.nombre, usuarios.id_steam, usuarios.url_perfil, usuarios.url_avatar FROM publicaciones JOIN usuarios ON usuarios.id = publicaciones.autor WHERE publicaciones.id = (?)");
 			if (!$sent_prep) {
-				echo '<head><title>Rebel Gamers Clan - Leer publicación</title>';
+				echo '<head><title>Rebel Gamers Clan - Leer publicación</title>
+				<meta name="description" content="Leer una publicación escrita en Rebel Gamers Clan">
+				<meta name="keywords" content="rebel,gamers,clan,comunidad,team,fortress,española,españa,steam,leer,publicacion">
+				<meta name="author" content="DR.DVD">';
 				mostrarPrimeraPartePagina();
 				echo '<div class="notificacion_error"><b>Ha habido un problema obteniendo los datos de la publicación de la base de datos.</b>' .
 				' Vuelve más tarde, a ver si se ha podido solucionar el problema.</div>';
@@ -96,7 +102,10 @@ $es_pagina_publicaciones = false;
 					}
 					while($publicacion = $result_publicacion->fetch_assoc()) {
 						// Añadimos el título y demás información de la etiqueta 'head' y abrimos el 'body' en la función 'mostrarPrimeraPartePagina()'.
-						echo '<head><title>Rebel Gamers Clan - ' . $publicacion['titulo'] . '</title>';
+						echo '<head><title>Rebel Gamers Clan - ' . $publicacion['titulo'] . '</title>
+						<meta name="description" content="' . $publicacion['resumen'] . '">
+						<meta name="keywords" content="rebel,gamers,clan,comunidad,team,fortress,española,españa,steam,leer,publicacion">
+						<meta name="author" content="DR.DVD">';
 						mostrarPrimeraPartePagina();
 						
 						// Mensaje de alerta sobre la publicación, dependiendo de si se ha realizado una acción.
@@ -129,7 +138,7 @@ $es_pagina_publicaciones = false;
 						// Si el autor no es anónimo, se pone un enlace para que los usuarios puedan ver su perfil y lo que ha escrito.
 						} else {
 							echo '<h2 class="datos_publicacion">' . tratarCategoria($publicacion['categoria']) . ' - Escrito el ' .
-							$publicacion['fecha'] . ' por <a href="usuario.php?id=' . $publicacion['id_autor'] . '" title="Ver perfil del autor">' . $publicacion['nombre'] . '</a></h2>';
+							$publicacion['fecha'] . ' por <a href="/usuario.php?id=' . $publicacion['id_autor'] . '" title="Ver perfil del autor">' . $publicacion['nombre'] . '</a></h2>';
 						}
 						// Sustituímos los saltos de línea por la etiqueta '<br>' para que se muestre correctamente en la página.
 						echo '<div class="resumen_publicacion">' . str_replace("\n", "<br>", $publicacion['resumen']) . '</div></header><hr>';
@@ -138,9 +147,9 @@ $es_pagina_publicaciones = false;
 						if ($id_usuario != "" && $id_usuario == $publicacion['id_autor']) {
 							// En caso de que lo sea, tiene derecho a 'Editar' o 'Eliminar' su publicación.
 							echo '<div align="right">';
-							echo '<form action="escribir.php" method="post" class="form_editar"><button class="boton_editar" type="submit" ' .
+							echo '<form action="/escribir.php" method="post" class="form_editar"><button class="boton_editar" type="submit" ' .
 							'name="editar" value="' . $id_publicacion . '">Editar</button><input type="hidden" name="conseguir_datos_recientes_publicacion"></form>';
-							echo ' <form action="confirmar_eliminar.php" method="post" class="form_eliminar"><button class="boton_eliminar" type="submit" ' .
+							echo ' <form action="/confirmar_eliminar.php" method="post" class="form_eliminar"><button class="boton_eliminar" type="submit" ' .
 							'name="publicacion">Eliminar</button><input type="hidden" name="id_publicacion" value="' . $id_publicacion . '" /></form></div>';
 						}
 						echo '</article>';
@@ -154,7 +163,7 @@ $es_pagina_publicaciones = false;
 								echo '<div class="notificacion_correcto">Se ha publicado el comentario correctamente.</div>';
 								break;
 							case 2:
-								echo '<div class="notificacion_correcto">Se ha <a href="leer.php?id=' . $_SESSION['id_publicacion'] .
+								echo '<div class="notificacion_correcto">Se ha <a href="/leer.php?id=' . $_SESSION['id_publicacion'] .
 								'#coment_' . $_SESSION['id_comentario'] . '">modificado el comentario</a> correctamente.</div>';
 								unset($_SESSION['id_publicacion']);
 								unset($_SESSION['id_comentario']);
@@ -202,7 +211,7 @@ $es_pagina_publicaciones = false;
 										}
 									}
 									if ($editar_comentario && $conectado_steam && $id_usuario != "" && $id_usuario == $comentario['id_autor']) {
-										echo '<form id="edit_coment_' . $id_comentario . '" action="acciones_post.php" method="post">';
+										echo '<form id="edit_coment_' . $id_comentario . '" action="/acciones_post.php" method="post">';
 										echo '<div class="notificacion_info">Edita el contenido del comentario.</div>';
 										echo '<textarea name="texto_comentario_editado" placeholder="Escribe aquí un comentario" class="caja_texto" form="edit_coment_' .
 										$id_comentario . '" rows=5 maxlength=1000>' . $comentario['contenido'] . '</textarea>';
@@ -213,15 +222,15 @@ $es_pagina_publicaciones = false;
 									} else {
 										echo '<div id="coment_' . $id_comentario . '" class="comentario">';
 										echo '<div class="datos_comentarios"><span class="dato_comentario_avatar"><img src="' . $comentario['url_avatar'] . 
-										'"></span> <span class="dato_comentario_nombre_y_fecha"><a href="usuario.php?id=' . $comentario['id_autor'] . '">' .
+										'"></span> <span class="dato_comentario_nombre_y_fecha"><a href="/usuario.php?id=' . $comentario['id_autor'] . '">' .
 										$comentario['nombre'] . '</a><br>' . $comentario['fecha'] . '</span></div>';
 										echo '<div class="cuerpo_comentario">' . $comentario['contenido']  . '</div>';
 										// Si el usuario es el autor del comentario se muestran los botones para editar/eliminar.
 										if ($id_usuario != "" && $id_usuario == $comentario['id_autor']) {
 											echo '<div align="right">';
-											echo '<form action="leer.php?id=' . $id_publicacion . '#edit_coment_' . $id_comentario . '" method="post" class="form_editar">';
+											echo '<form action="/leer.php?id=' . $id_publicacion . '#edit_coment_' . $id_comentario . '" method="post" class="form_editar">';
 											echo '<button class="boton_eliminar" type="submit" name="editar_comentario" value="' . $id_comentario . '">Editar</button></form>';
-											echo ' <form action="confirmar_eliminar.php" method="post" class="form_eliminar">';
+											echo ' <form action="/confirmar_eliminar.php" method="post" class="form_eliminar">';
 											echo '<button class="boton_eliminar" type="submit" name="comentario">Eliminar</button>';
 											echo '<input type="hidden" name="id_publicacion" value="' . $id_publicacion . '" />';
 											echo '<input type="hidden" name="id_comentario" value="' . $id_comentario . '" /></form></div>';
@@ -236,7 +245,7 @@ $es_pagina_publicaciones = false;
 							
 							// Autorizar comentarios si estás logeado a Steam.
 							if ($conectado_steam) {
-								echo '<form id="form_nuevo_comentario" action="acciones_post.php" method="post">';
+								echo '<form id="form_nuevo_comentario" action="/acciones_post.php" method="post">';
 								echo '<textarea name="texto_comentario" placeholder="Escribe aquí un comentario" class="caja_texto" form="form_nuevo_comentario" rows=5 maxlength=1000>';
 								if (($cod_comentario == 3  || $cod_comentario == 4) && (isset($_SESSION['texto_comentario']))) {
 									echo $_SESSION['texto_comentario'];
@@ -252,14 +261,20 @@ $es_pagina_publicaciones = false;
 					}
 				// Si no existe una publicación con esa ID, informamos de la situación.
 				} else {
-					echo '<head><title>Rebel Gamers Clan - Leer publicación</title>';
+					echo '<head><title>Rebel Gamers Clan - Leer publicación</title>
+					<meta name="description" content="Leer una publicación escrita en Rebel Gamers Clan">
+					<meta name="keywords" content="rebel,gamers,clan,comunidad,team,fortress,española,españa,steam,leer,publicacion">
+					<meta name="author" content="DR.DVD">';
 					mostrarPrimeraPartePagina();
 					echo '<div class="notificacion_advertencia"><b>No existe ninguna publicación con la ID que has introducido.</b></div>';
 				}
 			}
 		// Si no está indicada la ID por parámetro, tampoco se mostrará nada.
 		} else {
-			echo '<head><title>Rebel Gamers Clan - Leer publicación</title>';
+			echo '<head><title>Rebel Gamers Clan - Leer publicación</title>
+			<meta name="description" content="Leer una publicación escrita en Rebel Gamers Clan">
+			<meta name="keywords" content="rebel,gamers,clan,comunidad,team,fortress,española,españa,steam,leer,publicacion">
+			<meta name="author" content="DR.DVD">';
 			mostrarPrimeraPartePagina();
 			echo '<div class="notificacion_advertencia"><b>No has introducido ninguna ID.</b></div>';
 		}
