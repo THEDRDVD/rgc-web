@@ -107,7 +107,8 @@ $es_pagina_publicaciones = false;
 						
 						echo '<div id="caja_perfil_usuario">';
 						// Abrimos el bloque del avatar del usuario y los botones de edición (si tubieramos permisos de administrador).
-						echo '<div class="bloque_caja_perfil_usuario"><img id="imagen_perfil_usuario" src="' . $avatar_usuario . '" title="Imagen de perfil del usuario"></img>';
+						echo '<div class="bloque_caja_perfil_usuario"><img id="imagen_perfil_usuario" src="' . $avatar_usuario . 
+						'" title="Imagen de perfil de ' . $usuario['nombre'] . '" alt="Imagen de perfil de ' . $usuario['nombre'] . '">';
 						if ($conectado_steam) {
 							// Comprobamos si el usuario conectado tiene permisos de administrador.
 							$id_steam = $steamprofile['steamid'];
@@ -137,7 +138,7 @@ $es_pagina_publicaciones = false;
 						'<h4 class="elemento_perfil_usuario">' . claseUsuario($usuario['permisos']) . '</h4>';
 						
 						// Ahora buscamos las publicaciones que ha escrito este usuario.
-						$sent_prep = $con_bd->prepare("SELECT * FROM publicaciones WHERE autor = (?)");
+						$sent_prep = $con_bd->prepare("SELECT * FROM publicaciones WHERE autor = (?) ORDER BY fecha DESC");
 						if (!$sent_prep) {
 							echo '<div class="notificacion_error"><b>Ha habido un problema buscando las publicaciones escritas por el usuario en la base de datos.</b>' .
 							' Vuelve más tarde, a ver si se ha podido solucionar el problema.</div>';
@@ -148,7 +149,16 @@ $es_pagina_publicaciones = false;
 							$num_escritos = mysqli_num_rows($result_textos_escritos);
 							
 							// Si ha escrito algo, muestro las publicaciones listadas por título una por una.
-							if ($num_escritos > 0) {
+							if ($num_escritos == 0) {
+								echo "Este usuario no ha publicado nada aún.";
+							} else if ($num_escritos > 5) {
+								echo 'Ha escrito ' . $num_escritos . ' publicaciones.<ul id="lista_publicaciones_usuario" class="elemento_perfil_usuario">';
+								while($texto = $result_textos_escritos->fetch_assoc()) {
+									echo '<li class="elemento_lista_publicaciones_usuario"><a href="/leer.php?id=' . $texto['id'] .
+									'" title="Leer publicación escrita por este usuario">' . $texto['titulo'] . '</a></li>';
+								}
+								echo '</ul>';
+							} else {
 								if ($num_escritos == 1) {
 									echo 'Ha escrito ' . $num_escritos . ' publicación.<ul id="lista_publicaciones_usuario" class="elemento_perfil_usuario">';
 								} else {
@@ -159,8 +169,6 @@ $es_pagina_publicaciones = false;
 									'" title="Leer publicación escrita por este usuario">' . $texto['titulo'] . '</a></li>';
 								}
 								echo '</ul>';
-							} else {
-								echo "Este usuario no ha publicado nada aún.";
 							}
 						}
 						// Cerramos el 'div' del bloque de datos del usuario y el del comentario.
@@ -192,6 +200,7 @@ $es_pagina_publicaciones = false;
 			</section>
 			<?php include('zona_lateral.php'); ?>
 		</div>
+		<div style="clear: both;"></div>
 		<?php include('pie_pagina.php'); ?>
 	</body>
 </html>

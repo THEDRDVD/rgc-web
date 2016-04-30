@@ -6,17 +6,14 @@ include('steamauth/steamauth.php');
 include('steamauth/settings.php');
 // Incluímos 'datosbd.php' para conseguir los datos de conexión a la base de datos.
 include('datosbd.php');
-
 // Comprobamos si ya nos hemos conectado.
 $conectado_steam = conectadoSteam();
 if ($conectado_steam) {
 	// Incluímos 'userInfo.php' para conseguir los datos de Steam del usuario conectado.
 	include('steamauth/userInfo.php');
 }
-
 // Variable para comprobar si ha habido fallos a la hora de conectarse a la BD.
 $error_bd = false;
-
 // Variable para comprobar si estamos en la página de publicaciones, la cuál activa el formulario de búsqueda.
 $es_pagina_publicaciones = true;
 ?>
@@ -94,22 +91,26 @@ $es_pagina_publicaciones = true;
 					}
 					// Cerramos la conexión con la BD, ya no la necesitamos.
 					mysqli_close($con_bd);
-					
 				// Página de inicio con las publicaciones más recientes:
 				} else {
 					// Comprobamos si nos han enviado información de búsqueda a través del formulario:
 					$sent = "SELECT publicaciones.id AS id_publicacion, publicaciones.fecha, publicaciones.titulo, publicaciones.resumen, " .
 					"publicaciones.contenido, publicaciones.idioma, publicaciones.texto_original, publicaciones.categoria, usuarios.id AS id_autor, " .
 					"usuarios.nombre, usuarios.id_steam, usuarios.url_perfil, usuarios.url_avatar FROM publicaciones JOIN usuarios ON usuarios.id = publicaciones.autor";
+					// Preparamos las variables que indicarán por pantalla al usuario lo que se ha buscado.
+					$buscando = false;
+					$busq_palabras = array();
+					$busq_categorias = array();
+					$busq_autor = '';
 					
 					if (isset($_GET['buscar'])) {
+						$buscando = true;
 						// Descomponemos las palabras clave que nos envían a través del parámetro 'buscar'.
 						$array_palabras_buscar = explode(" ", $_GET['buscar']);
 						// Indicamos los carácteres que podrían ser "perjudiciales". Principalmente para evitar la inyección SQL.
 						$caracteres_malos = array("\"", "'", "=", "`", "´");
 						$array_palabras_buscar = str_replace($caracteres_malos, "", $array_palabras_buscar);
 						$num_palabras_buscar = sizeof($array_palabras_buscar);
-						
 						// Si se ha introducido alguna palabra a tener en cuenta, es lo primero que añadiremos a la variable $sent.
 						if ($num_palabras_buscar > 0) {
 							$sent = $sent . " WHERE ((titulo LIKE '%" . $array_palabras_buscar[0] . "%' OR resumen LIKE '%" . $array_palabras_buscar[0] . 
@@ -119,6 +120,8 @@ $es_pagina_publicaciones = true;
 							}
 							$sent = $sent . ")";
 						}
+						// Copiamos las palabras en el otro array que se mostrará al usuario.
+						$busq_palabras = $array_palabras_buscar;
 					}
 					if (isset($_GET['categoria'])) {
 						// Descomponemos las palabras clave que nos envían a través del parámetro 'categoria'.
@@ -127,36 +130,39 @@ $es_pagina_publicaciones = true;
 						$caracteres_malos = array("\"", "'", "=", "`", "´");
 						$array_categorias = str_replace($caracteres_malos, "", $array_categorias);
 						$num_categorias = sizeof($array_categorias);
-						
 						// Si se ha introducido alguna categoría a tener en cuenta, lo indicamos.
 						if ($num_categorias > 0) {
 							if (!strpos($sent, "WHERE")) {
 								$sent = $sent . " WHERE (categoria = " . $array_categorias[0];
+								// Se inserta la categoría una por una, ya que hay que usar la función 'tratarCategoria'.
+								array_push($busq_categorias, tratarCategoria($array_categorias[0]));
 								for ($i = 1; $i < $num_categorias; $i++) {
 									$sent = $sent . " OR categoria = " . $array_categorias[$i];
+									array_push($busq_categorias, tratarCategoria($array_categorias[$i]));
 								}
 							} else {
 								$sent = $sent . " AND (categoria = " . $array_categorias[0];
+								array_push($busq_categorias, tratarCategoria($array_categorias[0]));
 								for ($i = 1; $i < $num_categorias; $i++) {
 									$sent = $sent . " OR categoria = " . $array_categorias[$i];
+									array_push($busq_categorias, tratarCategoria($array_categorias[$i]));
 								}
 							}
 							$sent = $sent . ")";
 						}
 					}
-					
 					// Si se ha introducido el nombre del autor, lo indicamos.
 					if (isset($_GET['autor'])) {
 						$autor_introducido = $_GET['autor'];
+						$busq_autor = $autor_introducido;
 						if (!strpos($sent, "WHERE")) {
 							$sent = $sent . " WHERE (usuarios.nombre LIKE '%" . $autor_introducido . "%')";
 						} else {
 							$sent = $sent . " AND (usuarios.nombre LIKE '%" . $autor_introducido . "%')";
 						}
 					}
-					
-					// Ahora el número de publicaciones. Si no se ha indicado nada, se mostrarán 5 publicaciones. En caso contrario, tantas como el usuario haya indicado.
-					$num_publicaciones = 5;
+					// Ahora el número de publicaciones. Si no se ha indicado nada, se mostrarán 10 publicaciones. En caso contrario, tantas como el usuario haya indicado.
+					$num_publicaciones = 10;
 					if (isset($_GET['num_publicaciones']) && is_numeric($_GET['num_publicaciones'])) {
 						$num_publicaciones = $_GET['num_publicaciones'];
 					}
@@ -167,6 +173,26 @@ $es_pagina_publicaciones = true;
 						'Vuelve más tarde, a ver si se ha podido solucionar el problema.</div>';
 					} else {
 						if (mysqli_num_rows($result_list_textos) > 0) {
+							// Si se ha realizado una búsqueda, se mostrará un mensaje al usuario con los parámetros que ha usado.
+							if ($buscando) {
+								$cad_busqueda = 'Buscando ' . $num_publicaciones . ' publicaciones';
+								if (!empty($busq_autor)) {
+									$cad_busqueda = $cad_busqueda . ' escritas por <b>"' . $busq_autor . '"</b>';
+								}
+								if (sizeof($busq_categorias) > 0) {
+									$cad_busqueda = $cad_busqueda . ' de las categorías <b>"' . $busq_categorias[0] . '"</b>';
+									for ($i = 1; $i < sizeof($busq_categorias); $i++) {
+										$cad_busqueda = $cad_busqueda . ', <b>"' . $busq_categorias[$i] . '"</b>';
+									}
+								}
+								if (sizeof($busq_palabras) > 0 && !empty($busq_palabras[0])) {
+									$cad_busqueda = $cad_busqueda . ' con las palabras clave <b>"' . $busq_palabras[0] . '"</b>';
+									for ($i = 1; $i < sizeof($busq_palabras); $i++) {
+										$cad_busqueda = $cad_busqueda . ', <b>"' . $busq_palabras[$i] . '"</b>';
+									}
+								}
+								echo '<div class="notificacion_info" style="margin-bottom: 20px;">' . $cad_busqueda . '.</div>';
+							}
 							while($texto = $result_list_textos->fetch_assoc()) {
 								echo '<div class="caja_lectura_publicacion">';
 								echo '<h1 class="titulo_publicacion"><a href="/leer.php?id=' . $texto['id_publicacion'] . '" ' .
@@ -200,6 +226,7 @@ $es_pagina_publicaciones = true;
 			</section>
 			<?php include('zona_lateral.php'); ?>
 		</div>
+		<div style="clear: both;"></div>
 		<?php include('pie_pagina.php'); ?>
 	</body> 
 </html>

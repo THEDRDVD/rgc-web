@@ -40,8 +40,8 @@ $es_pagina_publicaciones = false;
 			<section id="zona_principal">
 				<h1 class="titulo_conocenos">¿Qué es Rebel Gamers Clan?</h1>
 				<p class="parrofo_conocenos"><b>Rebel Gamers Clan</b>, abreviado también a <b>RGC</b> es una comunidad española de <i>Team Fortress 2</i>, basada en la plataforma Steam.<br>
-					Nuestros únicos objetivos son <strike>dominar el mundo</strike> pasar un buen rato jugando unas partiditas a nuestros juegos favoritos, echar unas risas y desconectar de todo lo demás.<br>
-					Siempre intentamos cumplir esto basándonos en un ambiente de buen rollo y colegueo, dónde los usuarios puedan sentirse agusto y hacer amigos.
+				Nuestros únicos objetivos son <strike>dominar el mundo</strike> pasar un buen rato jugando unas partiditas a nuestros juegos favoritos, echar unas risas y desconectar de todo lo demás.<br>
+				Siempre intentamos cumplir esto basándonos en un ambiente de buen rollo y colegueo, donde los usuarios puedan sentirse agusto y hacer nuevas amistades.
 				</p>
 				<br>
 				<br>
@@ -54,16 +54,16 @@ $es_pagina_publicaciones = false;
 				<br>
 				<br>
 				<h1 class="titulo_conocenos">¿Quién está detrás de RGC?</h1>
-				<p class="parrofo_conocenos">Podríamos decir que detrás de RGC hay <b>decenas de jugadores y miembros</b>, los cuáles aportan su granito de arena para que la comunidad siga activa y vaya prosperando.<br>
+				<p class="parrofo_conocenos">Rebel Gamers Clan no sería lo que es a día de hoy sin los diversos jugadores y miembros que día a día aportan su granito de arena para que la comunidad siga activa y prospere.<br>
 				Pero si preguntas por los administradores... supongo que te refieres a <a href="http://steamcommunity.com/id/thedrdvd">DR.DVD</a> y <a href="http://steamcommunity.com/id/thedrdvd">Dark_Trainer</a>.<br>
-				Son además los fundadores del grupo, formado durante sus años mozos de instituto, allá por el 2009. No es casualidad que a día de hoy sigan siendo amigos (y conciudadanos de la mágica ciudad de Ripollet).<br>
-				En parte, esperamos que gracias a RGC este no sea sólo nuestro caso: quizás también pueda ser el tuyo y conozcas amigos con los que estarás en contacto durante muchos años.
+				Estos dos pringados fundaron el grupo durante sus años mozos de instituto, allá por el 2009. No es casualidad que a día de hoy sigan siendo amigos (y conciudadanos de la mágica ciudad de Ripollet).<br>
+				Tampoco es casualidad que, gracias a RGC, muchas de las personas que hemos conocido desde 2009 sigan a nuestro lado, jugando con nosotros. Quizás este también pueda ser tu caso: queremos que a través de nosotros puedas conocer nuevos amigos con los que estarás en contacto durante muchos años.
 				</p>
 				<br>
 				<br>
 				<h1 class="titulo_conocenos">¿Y qué hay del oscuro pasado del grupo?</h1>
-				<p class="parrofo_conocenos">Durante tantos años, se podría decir que los miembros de RGC hemos vivido <b>muchas aventuras y experiencias</b>. Por fortuna, casi todo bueno.<br>
-				Sin embargo, si eres un cotilla y no puedes resistir en remover los escombros de nuestro pasado, hemos preparado la <a href="/historia.php">sección de 'Historia'</a> del grupo, para que puedas chafardear muchas de las peripecias y cosas que nos definían en el pasado.<br>
+				<p class="parrofo_conocenos">Durante tantos años, se podría decir que los miembros de RGC hemos vivido <b>muchas aventuras y experiencias curiosas</b>. Por fortuna, casi todo bueno.<br>
+				Sin embargo, si eres un cotilla y no puedes resistir en remover los escombros de nuestro pasado, hemos preparado la <a href="/historia.php">sección de 'Historia'</a> del grupo, para que puedas chafardear que hacíamos otrora.<br>
 				Hemos pasado por muchas cosas y, en parte, eso es lo que nos hace tener la <b>voluntad de seguir adelante</b>. ¡Tú también puedes formar parte de la historia del grupo!
 				</p>
 				<br>
@@ -76,6 +76,7 @@ $es_pagina_publicaciones = false;
 			</section>
 			<?php include('zona_lateral.php'); ?>
 		</div>
+		<div style="clear: both;"></div>
 		<?php include('pie_pagina.php'); ?>
 	</body> 
 </html>

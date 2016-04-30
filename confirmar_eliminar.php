@@ -137,6 +137,7 @@ $es_pagina_publicaciones = false;
 			</section>
 			<?php include('zona_lateral.php'); ?>
 		</div>
+		<div style="clear: both;"></div>
 		<?php include('pie_pagina.php'); ?>
 	</body>
 </html>

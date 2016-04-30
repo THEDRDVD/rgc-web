@@ -144,7 +144,7 @@ $es_pagina_publicaciones = false;
 						echo '<div class="resumen_publicacion">' . str_replace("\n", "<br>", $publicacion['resumen']) . '</div></header><hr>';
 						echo '<div class="contenido_publicacion">' . str_replace("\n", "<br>", $publicacion['contenido']) . '</div>';
 						// Comprobamos si el usuario es el mismo autor de la publicación.
-						if ($id_usuario != "" && $id_usuario == $publicacion['id_autor']) {
+						if ($id_usuario != "" && ($id_usuario == $publicacion['id_autor'] || $permisos_usuario == 2)) {
 							// En caso de que lo sea, tiene derecho a 'Editar' o 'Eliminar' su publicación.
 							echo '<div align="right">';
 							echo '<form action="/escribir.php" method="post" class="form_editar"><button class="boton_editar" type="submit" ' .
@@ -191,7 +191,7 @@ $es_pagina_publicaciones = false;
 						}
 						
 						// Se crea la sentencia para buscar los comentarios que correspondan a la publicación que queremos.
-						$sent_prep = $con_bd->prepare("SELECT comentarios.id AS id_comentario, comentarios.publicacion_comentada, comentarios.fecha, comentarios.contenido, usuarios.id AS id_autor, usuarios.nombre, usuarios.id_steam, usuarios.url_perfil, usuarios.url_avatar FROM comentarios JOIN usuarios ON usuarios.id = comentarios.autor_comentario WHERE comentarios.publicacion_comentada = (?) ORDER BY fecha DESC");
+						$sent_prep = $con_bd->prepare("SELECT comentarios.id AS id_comentario, comentarios.publicacion_comentada, comentarios.fecha, comentarios.contenido, usuarios.id AS id_autor, usuarios.nombre, usuarios.id_steam, usuarios.url_perfil, usuarios.url_avatar FROM comentarios JOIN usuarios ON usuarios.id = comentarios.autor_comentario WHERE comentarios.publicacion_comentada = (?) ORDER BY fecha ASC");
 						if (!$sent_prep) {
 							echo '<div class="notificacion_error"><b>Ha ocurrido un problema buscando los comentarios para este texto.</b>' .
 							' Vuelve más tarde, a ver si se ha podido solucionar el problema.</div>';
@@ -222,14 +222,14 @@ $es_pagina_publicaciones = false;
 									} else {
 										echo '<div id="coment_' . $id_comentario . '" class="comentario">';
 										echo '<div class="datos_comentarios"><span class="dato_comentario_avatar"><img src="' . $comentario['url_avatar'] . 
-										'"></span> <span class="dato_comentario_nombre_y_fecha"><a href="/usuario.php?id=' . $comentario['id_autor'] . '">' .
-										$comentario['nombre'] . '</a><br>' . $comentario['fecha'] . '</span></div>';
+										'" alt="Avatar"></span> <span class="dato_comentario_nombre_y_fecha"><a href="/usuario.php?id=' . 
+										$comentario['id_autor'] . '">' . $comentario['nombre'] . '</a><br>' . $comentario['fecha'] . '</span></div>';
 										echo '<div class="cuerpo_comentario">' . $comentario['contenido']  . '</div>';
 										// Si el usuario es el autor del comentario se muestran los botones para editar/eliminar.
-										if ($id_usuario != "" && $id_usuario == $comentario['id_autor']) {
+										if ($id_usuario != "" && ($id_usuario == $comentario['id_autor'] || $permisos_usuario == 2)) {
 											echo '<div align="right">';
 											echo '<form action="/leer.php?id=' . $id_publicacion . '#edit_coment_' . $id_comentario . '" method="post" class="form_editar">';
-											echo '<button class="boton_eliminar" type="submit" name="editar_comentario" value="' . $id_comentario . '">Editar</button></form>';
+											echo '<button class="boton_editar" type="submit" name="editar_comentario" value="' . $id_comentario . '">Editar</button></form>';
 											echo ' <form action="/confirmar_eliminar.php" method="post" class="form_eliminar">';
 											echo '<button class="boton_eliminar" type="submit" name="comentario">Eliminar</button>';
 											echo '<input type="hidden" name="id_publicacion" value="' . $id_publicacion . '" />';
@@ -285,6 +285,7 @@ $es_pagina_publicaciones = false;
 			</section>
 			<?php include('zona_lateral.php'); ?>
 		</div>
+		<div style="clear: both;"></div>
 		<?php include('pie_pagina.php'); ?>
 	</body>
 </html>

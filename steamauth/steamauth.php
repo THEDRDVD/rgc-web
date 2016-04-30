@@ -24,7 +24,7 @@ try {
             header('Location: ' . $openid->authUrl());
         }
 
-    return "<form action=\"?login\" method=\"post\" title=\"Usa tu cuenta de Steam para hacer uso de ciertas funcionalidades de la página, como realizar comentarios o escribir publicaciones. El proceso de autenticación se hace a través de Steam.\"> <input type=\"image\" src=\"http://cdn.steamcommunity.com/public/images/signinthroughsteam/sits_".$button.".png\"></form>";
+    return "<form action=\"?login\" method=\"post\" title=\"Usa tu cuenta de Steam para hacer uso de ciertas funcionalidades de la página, como realizar comentarios o escribir publicaciones. El proceso de autenticación se hace a través de Steam.\"> <input type=\"image\" src=\"http://cdn.steamcommunity.com/public/images/signinthroughsteam/sits_".$button.".png\" alt=\"Conexión a Steam\"></form>";
     }
 
      elseif($openid->mode == 'cancel') {

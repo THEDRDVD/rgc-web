@@ -161,6 +161,9 @@
 					}
 					
 					if ($sent_prep->execute()) {
+						// Si la publicación se ha creado/modificado correctamente, se genera el RSS.
+						generarRSS();
+						// Se comprueba si la publicación se está editando, o si se crea una nueva.
 						if (isset($_POST['editar'])) {
 							$_SESSION['cod_publicacion'] = 2;
 							$id_publicacion = $_POST['editar'];
@@ -168,13 +171,11 @@
 							$_SESSION['cod_publicacion'] = 1;
 							$id_publicacion = $con_bd_2->insert_id;
 						}
-						mysqli_close($con_bd_2);
 						header('HTTP/1.1 303 See Other');
 						header('Location: /leer.php?id=' . $id_publicacion);
 					} else {
 						echo '<div class="notificacion_error"><b>No se ha podido publicar el texto en la base de datos.</b> Inténtalo de nuevo.</div>';
 					}
-					
 					// Cerramos la conexión tras terminar de insertar el texto en la base de datos.
 					mysqli_close($con_bd_2);
 				}
@@ -501,5 +502,97 @@
 		@$url = file_get_contents("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=".$steamauth['apikey']."&steamids=".$id_steam);
 		$content = json_decode($url, true);
 		return $content;
+	}
+	
+	/* Genera el RSS Feed de la página principal de Rebel Gamers Clan, creando un documento DOM en formato XML.
+	Obtiene las 10 publicaciones más recientes de la base de datos, y va creando los nodos con los atributos correspondientes.
+	Se usa (indirectamente) en 'escribir.php'.
+	*/
+	function generarRSS() {
+		include('datosbd.php');
+		$docXml = new DOMDocument("1.0", "UTF-8");
+		$docXml->formatOutput = true;
+		$rss = $docXml->createElement("rss");
+		$nodo_rss = $docXml->appendChild($rss);
+		$nodo_rss->setAttribute("version", "2.0");
+
+		$channel = $docXml->createElement("channel");
+		$nodo_channel = $nodo_rss->appendChild($channel);
+
+		$title = $docXml->createElement("title");
+		$nodo_title = $nodo_channel->appendChild($title);
+		$texto_title = $docXml->createTextNode("Rebel Gamers Clan");
+		$nodo_title->appendChild($texto_title);
+
+		$link = $docXml->createElement("link");
+		$nodo_link = $nodo_channel->appendChild($link);
+		$texto_link = $docXml->createTextNode("http://rebelgamersclan.es");
+		$nodo_link->appendChild($texto_link);
+
+		$description = $docXml->createElement("description");
+		$nodo_description = $nodo_channel->appendChild($description);
+		$texto_description = $docXml->createTextNode("RSS con la actualidad de Rebel Gamers Clan");
+		$nodo_description->appendChild($texto_description);
+
+		$error_bd = false;
+		try {
+			$con_bd = new mysqli($datosbd['conexion'], $datosbd['usuario1'], $datosbd['contra1'], $datosbd['nombre_bd']);
+		} catch (Exception $e) {
+			$error_bd = true;
+		}
+		if (!$error_bd) {
+			prepararConexionUTF8($con_bd);
+			$sent = "SELECT publicaciones.id AS id_publicacion, publicaciones.fecha, publicaciones.titulo, publicaciones.resumen," .
+			"publicaciones.idioma, publicaciones.categoria, usuarios.id AS id_autor, usuarios.nombre FROM publicaciones " .
+			"JOIN usuarios ON usuarios.id = publicaciones.autor ORDER BY id_publicacion DESC LIMIT 10";
+			$result_list_textos = $con_bd->query($sent);
+			if ($result_list_textos) {
+				if (mysqli_num_rows($result_list_textos) > 0) {
+					while($texto = $result_list_textos->fetch_assoc()) {
+						$item = $docXml->createElement("item");
+						$nodo_item = $nodo_channel->appendChild($item);
+						
+						// Nodos dentro de cada 'item', que representa los atributos de la publicación.
+						$title = $docXml->createElement("title");
+						$nodo_title = $nodo_item->appendChild($title);
+						$texto_title = $docXml->createTextNode($texto['titulo']);
+						$nodo_title->appendChild($texto_title);
+						$link = $docXml->createElement("link");
+						$nodo_link = $nodo_item->appendChild($link);
+						$texto_link = $docXml->createTextNode("http://rebelgamersclan.es/leer.php?id=" . $texto['id_publicacion']);
+						$nodo_link->appendChild($texto_link);
+						$description = $docXml->createElement("description");
+						$nodo_description = $nodo_item->appendChild($description);
+						$texto_description = $docXml->createTextNode($texto['resumen']);
+						$nodo_description->appendChild($texto_description);
+						$objFecha = new DateTime($texto['fecha']);
+						$fechaRSS = $objFecha->format(DateTime::RSS);
+						$pubDate = $docXml->createElement("pubDate");
+						$nodo_pubDate = $nodo_item->appendChild($pubDate);
+						$texto_pubDate = $docXml->createTextNode($fechaRSS);
+						$nodo_pubDate->appendChild($texto_pubDate);
+						$author = $docXml->createElement("author");
+						$nodo_author = $nodo_item->appendChild($author);
+						$texto_author = $docXml->createTextNode($texto['nombre']);
+						$nodo_author->appendChild($texto_author);
+						$category = $docXml->createElement("category");
+						$nodo_category = $nodo_item->appendChild($category);
+						$texto_category = $docXml->createTextNode(tratarCategoria($texto['categoria']));
+						$nodo_category->appendChild($texto_category);
+						$comments = $docXml->createElement("comments");
+						$nodo_comments = $nodo_item->appendChild($comments);
+						$texto_comments = $docXml->createTextNode("http://rebelgamersclan.es/leer.php?id=" . $texto['id_publicacion'] . "#comentarios");
+						$nodo_comments->appendChild($texto_comments);
+						$guid = $docXml->createElement("guid");
+						$nodo_guid = $nodo_item->appendChild($guid);
+						$texto_guid = $docXml->createTextNode("http://rebelgamersclan.es/leer.php?id=" . $texto['id_publicacion']);
+						$nodo_guid->appendChild($texto_guid);
+						$nodo_guid->setAttribute("isPermaLink", "true");
+					}
+				}
+			}
+			mysqli_close($con_bd);
+		}
+		$docXml->save("/var/www/rebelgamersclan/public_html/rss.xml");
 	}
 ?>

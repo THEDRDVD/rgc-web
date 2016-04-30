@@ -4,6 +4,8 @@ include('funciones.php');
 // Incluímos 'steamauth.php' para las funciones de login/logout a Steam, y 'settings.php' para datos como la API key.
 include('steamauth/steamauth.php');
 include('steamauth/settings.php');
+// Incluímos 'datosbd.php' para conseguir los datos de conexión a la base de datos.
+include('datosbd.php');
 
 // Comprobamos si ya nos hemos conectado.
 $conectado_steam = conectadoSteam();
@@ -39,19 +41,19 @@ $es_pagina_publicaciones = false;
 				<h1 class="titulo_tipo_servicio"><u>SERVIDORES DE JUEGO</u></h1>
 				<p class="desc_tipo_servicio">El plato principal: este es el tipo de servicio que más usamos, y lo que nos da identidad dentro de la comunidad. ¡Añade los servidores a tus favoritos!</p>
 				<div class="bloque_servicio">
-					<div class="subbloque_servicio"><img src="/img/servicio_tf2.png" width="60px"></div>
+					<div class="subbloque_servicio"><img src="/img/servicio_tf2.png" width="60" alt="TF2 PÚBLICO"></div>
 					<div class="subbloque_servicio">
 						<h1 class="elemento_subbloque_servicio">[ESP] Rebel Gamers Clan | Público</h1>
 						<p class="elemento_subbloque_servicio"><b>Dirección:</b> <a href="steam://connect/rebelgamersclan.es:27015" target="_BLANK">rebelgamersclan.es:27015</a></p>
 					</div>
 					<div class="subbloque_servicio_desc">
 						<p class="elemento_subbloque_servicio">He aquí lo que nos ha definido durante mucho tiempo como lo que somos: el <b>servidor público de 24 espacios</b>, abierto las 24 horas del día, 7 días a la semana.
-						Disfruta de la esencia de <i>Team Fortress 2</i>, sin modificaciones ni <i>plugins</i> que interfieran en la jugabilidad clásica, y con una rotación de mapas compuesta por sólo mapas oficiales del juego.
-						Nos gusta charlar y reírnos juntos, osea que tenemos el <i>alltalk</i> activado. Y si eres de los que tiene su propia opinión sobre los críticos aleatorios, siempre puedes votar al principio de la partida, con el sistema de votación para críticos aleatorios que tenemos configurado.</p>
+						Disfruta de la esencia de <i>Team Fortress 2</i>, sin modificaciones ni <i>plugins</i> que interfieran en la <b>jugabilidad clásica</b>, y con una rotación de mapas compuesta por sólo mapas oficiales del juego.
+						Nos gusta charlar y reírnos juntos, osea que tenemos el <b><i>alltalk</i> activado</b>. Si eres de los que tiene su propia opinión sobre los críticos aleatorios, siempre puedes votar al principio de la partida, con el sistema de <b>votación para críticos aleatorios</b> que tenemos configurado. Y si lo que te gusta es recordar tus mejores momentos, disponemos de <b>sistema de repeticiones (<i>Replays</i>)</b> para que puedas guardar y grabar tus peripecias en el servidor.</p>
 					</div>
 				</div>
 				<div class="bloque_servicio">
-					<div class="subbloque_servicio"><img src="/img/servicio_tf2.png" width="60px"></div>
+					<div class="subbloque_servicio"><img src="/img/servicio_tf2.png" width="60" alt="TF2 MVM"></div>
 					<div class="subbloque_servicio">
 						<h1 class="elemento_subbloque_servicio">[ESP] Rebel Gamers Clan | Mann vs. Machine</h1>
 						<p class="elemento_subbloque_servicio"><b>Dirección:</b> <a href="steam://connect/rebelgamersclan.es:27016" target="_BLANK">rebelgamersclan.es:27016</a></p>
@@ -66,7 +68,7 @@ $es_pagina_publicaciones = false;
 				<h1 class="titulo_tipo_servicio"><u>SERVICIOS DE VOZ</u></h1>
 				<p class="desc_tipo_servicio">Si eres de los que no te callas ni debajo del agua (como yo) tenemos un par de servicios de voz a tu disposición.</p>
 				<div class="bloque_servicio">
-					<div class="subbloque_servicio"><img src="/img/servicio_ts3.png" width="60px"></div>
+					<div class="subbloque_servicio"><img src="/img/servicio_ts3.png" width="60" alt="TEAMSPEAK 3"></div>
 					<div class="subbloque_servicio">
 						<h1 class="elemento_subbloque_servicio">Canal de TeamSpeak 3</h1>
 						<p class="elemento_subbloque_servicio"><b>Dirección:</b> <a href="ts3server://rebelgamersclan.es:9987/" target="_BLANK">rebelgamersclan.es:9987</a></p>
@@ -76,7 +78,7 @@ $es_pagina_publicaciones = false;
 					</div>
 				</div>
 				<div class="bloque_servicio">
-					<div class="subbloque_servicio"><img src="/img/servicio_mumble02.png" width="60px"></div>
+					<div class="subbloque_servicio"><img src="/img/servicio_mumble02.png" width="60" alt="MUMBLE"></div>
 					<div class="subbloque_servicio">
 						<h1 class="elemento_subbloque_servicio">Canal de Mumble</h1>
 						<p class="elemento_subbloque_servicio"><b>Dirección:</b> <a href="mumble://rebelgamersclan.es:64738/" target="_BLANK">rebelgamersclan.es:64738</a></p>
@@ -89,28 +91,28 @@ $es_pagina_publicaciones = false;
 				<h1 class="titulo_tipo_servicio"><u>REDES SOCIALES</u></h1>
 				<p class="desc_tipo_servicio">No dudes en echar un vistazo a todas nuestras redes sociales para estar enterado de todas las novedades sobre el grupo.</p>
 				<div class="bloque_servicio">
-					<div class="subbloque_servicio"><a href="http://steamcommunity.com/groups/rebelgamersclan" target="_BLANK"><img src="/img/servicio_steam.png" width="60px"></a></div>
+					<div class="subbloque_servicio"><a href="http://steamcommunity.com/groups/rebelgamersclan" target="_BLANK"><img src="/img/servicio_steam.png" width="60" alt="STEAM"></a></div>
 					<div class="subbloque_servicio">
 						<h1 class="elemento_subbloque_servicio"><a href="http://steamcommunity.com/groups/rebelgamersclan" target="_BLANK">Página de Steam</a></h1>
 						<p class="elemento_subbloque_servicio">Grupo público de <b>Rebel Gamers Clan</b>, desde el cuál se publican <b>anuncios y eventos</b>.</p>
 					</div>
 				</div>
 				<div class="bloque_servicio">
-					<div class="subbloque_servicio"><a href="http://twitter.com/RebelGamersClan" target="_BLANK"><img src="/img/servicio_twitter.png" width="60px"></a></div>
+					<div class="subbloque_servicio"><a href="http://twitter.com/RebelGamersClan" target="_BLANK"><img src="/img/servicio_twitter.png" width="60" alt="TWITTER"></a></div>
 					<div class="subbloque_servicio">
 						<h1 class="elemento_subbloque_servicio"><a href="http://twitter.com/RebelGamersClan" target="_BLANK">Twitter</a></h1>
 						<p class="elemento_subbloque_servicio">Cuenta de Twitter de <b>RGC</b>, con <b>enlaces a las últimas noticias</b> y novedades para estar al día con el grupo.</p>
 					</div>
 				</div>
 				<div class="bloque_servicio">
-					<div class="subbloque_servicio"><a href="http://facebook.com/RebelGamersClan" target="_BLANK"><img src="/img/servicio_facebook.png" width="60px"></a></div>
+					<div class="subbloque_servicio"><a href="http://facebook.com/RebelGamersClan" target="_BLANK"><img src="/img/servicio_facebook.png" width="60" alt="FACEBOOK"></a></div>
 					<div class="subbloque_servicio">
 						<h1 class="elemento_subbloque_servicio"><a href="http://facebook.com/RebelGamersClan" target="_BLANK">Facebook</a></h1>
 						<p class="elemento_subbloque_servicio">Además de las últimas noticias, la página de Facebook de <b>RGC</b> también sirve para <b>compartir contenido</b> como fotografías de quedadas, viajes, encuentros...</p>
 					</div>
 				</div>
 				<div class="bloque_servicio">
-					<div class="subbloque_servicio"><a href="http://youtube.com/user/RebelGamersClan" target="_BLANK"><img src="/img/servicio_youtube.png" width="60px"></a></div>
+					<div class="subbloque_servicio"><a href="http://youtube.com/user/RebelGamersClan" target="_BLANK"><img src="/img/servicio_youtube.png" width="60" alt="YOUTUBE"></a></div>
 					<div class="subbloque_servicio">
 						<h1 class="elemento_subbloque_servicio"><a href="http://youtube.com/user/RebelGamersClan" target="_BLANK">YouTube</a></h1>
 						<p class="elemento_subbloque_servicio">Aunque no tenemos un canal de cientos de suscriptores ni contenido frecuente, puedes encontrar más de un <b>vídeo de nuestros peripecias</b> en nuestro canal de YouTube.</p>
@@ -120,7 +122,7 @@ $es_pagina_publicaciones = false;
 				<h1 class="titulo_tipo_servicio"><u>OTROS SERVICIOS</u></h1>
 				<p class="desc_tipo_servicio">Aquí se agrupan otros servicios ofrecidos que no corresponden a ninguna categoría particular.</p>
 				<div class="bloque_servicio">
-					<div class="subbloque_servicio"><a href="https://github.com/THEDRDVD/rgc-web" target="_BLANK"><img src="/img/servicio_github.png" width="60px"></a></div>
+					<div class="subbloque_servicio"><a href="https://github.com/THEDRDVD/rgc-web" target="_BLANK"><img src="/img/servicio_github.png" width="60" alt="GITHUB"></a></div>
 					<div class="subbloque_servicio">
 						<h1 class="elemento_subbloque_servicio">rgc-web (Repositorio de GitHub)</h1>
 						<p class="elemento_subbloque_servicio"><b>Dirección:</b> <a href="https://github.com/THEDRDVD/rgc-web" target="_BLANK">https://github.com/THEDRDVD/rgc-web</a></p>
@@ -130,7 +132,7 @@ $es_pagina_publicaciones = false;
 					</div>
 				</div>
 				<div class="bloque_servicio">
-					<div class="subbloque_servicio"><a href="http://latostadora.com/rebelgamersclan" target="_BLANK"><img src="/img/servicio_tostadora.png" width="60px"></a></div>
+					<div class="subbloque_servicio"><a href="http://latostadora.com/rebelgamersclan" target="_BLANK"><img src="/img/servicio_tostadora.png" width="60" alt="LATOSTADORA"></a></div>
 					<div class="subbloque_servicio">
 						<h1 class="elemento_subbloque_servicio"><a href="http://latostadora.com/rebelgamersclan" target="_BLANK">Tienda de LaTostadora.com</a></h1>
 						<p class="elemento_subbloque_servicio">Quizás te resulte curioso saber que tenemos una pequeña sección de tienda propia en LaTostadora.com, una popular página española, que imprime camisetas con diseños personalizados. La camiseta con el logotipo de RGC, creado por Drawer, es irrestible, tanto por su precio como por su fabulosidad.</p>
@@ -139,6 +141,7 @@ $es_pagina_publicaciones = false;
 			</section>
 			<?php include('zona_lateral.php'); ?>
 		</div>
+		<div style="clear: both;"></div>
 		<?php include('pie_pagina.php'); ?>
 	</body> 
 </html>

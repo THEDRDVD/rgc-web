@@ -1,5 +1,5 @@
 <div id="logo_rgc">
-	<img src="/img/logo_rgc01.png" title="Imagen creada por Drawer (Jesús Vera)" />
+	<img src="/img/logo_rgc01.png" title="El logo más guay del mundo" alt="REBEL GAMERS CLAN" />
 </div>
 <nav id="barra_navegacion">
 	<ul>
